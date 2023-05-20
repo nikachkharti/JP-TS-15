@@ -26,14 +26,9 @@ User user2 = new()
     }
 };
 
-Console.WriteLine($"User1 balance : {user1.Account.Balance}");
-Console.WriteLine($"User2 balance : {user2.Account.Balance}");
-
-Console.WriteLine("---------------");
-user1.Transfer(60, user2);
-
-Console.WriteLine($"User1 balance : {user1.Account.Balance}");
-Console.WriteLine($"User2 balance : {user2.Account.Balance}");
+//შექმენით User - ების მასივი სადაც შეინახავთ რამდნეიმე User-ს.
+//დაწერეთ ფუნქცია FindTheRichest მოძებნეთ ყველაზე მდიდარი User -ი თქვენს 
+//User ებს შორის და ჩაწერეთ ამ User-ის შესახებ სრული ინფორმაცია File-ში...
 
 
 
