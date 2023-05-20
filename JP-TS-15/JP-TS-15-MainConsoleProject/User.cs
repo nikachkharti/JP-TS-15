@@ -20,5 +20,24 @@
 
         //კომპოზიცია
         public Account Account { get; set; }
+        public void Transfer(decimal transferAmount, User userToRecive)
+        {
+            try
+            {
+                if (Account.Balance >= transferAmount)
+                {
+                    Account.Balance -= transferAmount;
+                    userToRecive.Account.Balance += transferAmount;
+                }
+                else
+                {
+                    throw new ArgumentException("Unable to transfer amount");
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
     }
 }
