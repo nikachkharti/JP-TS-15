@@ -26,8 +26,16 @@
             {
                 if (Account.Balance >= transferAmount)
                 {
-                    Account.Balance -= transferAmount;
-                    userToRecive.Account.Balance += transferAmount;
+                    if (transferAmount >= 50)
+                    {
+                        Account.Balance -= transferAmount + 1;
+                        userToRecive.Account.Balance += transferAmount - 1;
+                    }
+                    else
+                    {
+                        Account.Balance -= transferAmount;
+                        userToRecive.Account.Balance += transferAmount;
+                    }
                 }
                 else
                 {
