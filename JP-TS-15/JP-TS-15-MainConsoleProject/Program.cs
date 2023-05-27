@@ -2,12 +2,17 @@
 
 
 string[] data = File.ReadAllLines(@"../../../vehicles.csv");
+Vehicle[] vehiclesData = Algorithm.Select(data);
+var bmws = Algorithm.FindAll(vehiclesData, "BMW");
+var sortedCars = Algorithm.OrderBy(vehiclesData);
 
-Vehicle[] vehicleArray = new Vehicle[data.Length];
-for (int i = 0; i < data.Length; i++)
-{
-    vehicleArray[i] = Vehicle.Parse(data[i]);
-}
 
 
 Console.ReadLine();
+
+
+
+
+
+
+
