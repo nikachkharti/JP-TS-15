@@ -6,14 +6,16 @@
 
     public static class Algorithm
     {
-        public static Vehicle[] Take(Vehicle[] vehicles, int quantity)
+        //დაწერეთ უნიკალური ელემენტების პოვნის ფუნქცია Distinct ჯენერიკად
+        //დაწერეთ ფუნქცია სახელად Any რომელიც დააბრუნებს true თუ ლისტიდან ერთი ელემენტი მაინც აკმაყოფილებს გადაცემულ პირობას(ჯენერიკად)
+        //დაწერეთ ფუნქცია სახელად All რომელიც დააბრუნებს true თუ ლისტიდან ყველა ელემენტი მაინც აკმაყოფილებს გადაცემულ პირობას(ჯენერიკად)
+
+        public static T[] Take<T>(T[] vehicles, int quantity)
         {
             if (vehicles.Length <= quantity)
-            {
                 throw new ArgumentOutOfRangeException("Insuficcinet data");
-            }
 
-            Vehicle[] result = new Vehicle[quantity];
+            T[] result = new T[quantity];
             for (int i = 0; i < quantity; i++)
             {
                 result[i] = vehicles[i];
@@ -21,50 +23,48 @@
 
             return result;
         }
-        public static Vehicle[] Select(string[] stringArray)
+        public static T[] OrderBy<T>(T[] collection, Func<T, T, bool> comparer)
         {
-            Vehicle[] vehicleArray = new Vehicle[stringArray.Length];
-            for (int i = 0; i < stringArray.Length; i++)
+            for (int i = 0; i < collection.Length - 1; i++)
             {
-                vehicleArray[i] = Vehicle.Parse(stringArray[i]);
-            }
-
-            return vehicleArray;
-        }
-        public static Vehicle[] OrderBy(Vehicle[] vehicleArray)
-        {
-            for (int i = 0; i < vehicleArray.Length - 1; i++)
-            {
-                for (int j = i + 1; j < vehicleArray.Length; j++)
+                for (int j = i + 1; j < collection.Length; j++)
                 {
-                    if (vehicleArray[j].Combined > vehicleArray[i].Combined)
+                    if (comparer(collection[j], collection[i]))
                     {
-                        //Swap
-                        Vehicle temporary = vehicleArray[j];
-                        vehicleArray[j] = vehicleArray[i];
-                        vehicleArray[i] = temporary;
+                        T temporary = collection[j];
+                        collection[j] = collection[i];
+                        collection[i] = temporary;
                     }
                 }
             }
 
-            return vehicleArray;
+            return collection;
         }
-
-        public static List<Vehicle> FindAll(Vehicle[] vehicles, string make)
+        public static TResult[] Select<TSource, TResult>(TSource[] source, Func<TSource, TResult> selector)
         {
-            List<Vehicle> result = new();
-
-            for (int i = 0; i < vehicles.Length; i++)
+            TResult[] result = new TResult[source.Length];
+            for (int i = 0; i < source.Length; i++)
             {
-                if (vehicles[i].Make.Contains(make))
+                result[i] = selector(source[i]);
+            }
+
+            return result;
+        }
+        public static List<T> FindAll<T>(T[] collection, Predicate<T> predicate)
+        {
+            List<T> result = new();
+
+            for (int i = 0; i < collection.Length; i++)
+            {
+                if (predicate(collection[i]))
                 {
-                    result.Add(vehicles[i]);
+                    result.Add(collection[i]);
                 }
             }
 
             return result;
         }
-        public static int FirstOrDefault(int[] collection, Func<int, bool> comparer)
+        public static T FirstOrDefault<T>(T[] collection, Func<T, bool> comparer)
         {
             for (int i = 0; i < collection.Length; i++)
             {
@@ -76,8 +76,6 @@
 
             return default;
         }
-
-
         public static int FindIndex<T>(T[] collection, Predicate<T> predicate)
         {
             for (int i = 0; i < collection.Length; i++)
@@ -101,6 +99,5 @@
             }
             return -1;
         }
-
     }
 }
