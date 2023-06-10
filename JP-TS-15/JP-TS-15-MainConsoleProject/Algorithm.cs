@@ -6,7 +6,7 @@
 
     public static class Algorithm
     {
-        public static T[] Take<T>(T[] vehicles, int quantity)
+        public static T[] Take<T>(this T[] vehicles, int quantity)
         {
             if (vehicles.Length <= quantity)
                 throw new ArgumentOutOfRangeException("Insuficcinet data");
@@ -19,7 +19,7 @@
 
             return result;
         }
-        public static T[] OrderBy<T>(T[] collection, Func<T, T, bool> comparer)
+        public static T[] OrderBy<T>(this T[] collection, Func<T, T, bool> comparer)
         {
             for (int i = 0; i < collection.Length - 1; i++)
             {
@@ -36,7 +36,7 @@
 
             return collection;
         }
-        public static TResult[] Select<TSource, TResult>(TSource[] source, Func<TSource, TResult> selector)
+        public static TResult[] MySelect<TSource, TResult>(this TSource[] source, Func<TSource, TResult> selector)
         {
             TResult[] result = new TResult[source.Length];
             for (int i = 0; i < source.Length; i++)
@@ -46,7 +46,7 @@
 
             return result;
         }
-        public static List<T> FindAll<T>(T[] collection, Predicate<T> predicate)
+        public static List<T> MyWhere<T>(this T[] collection, Predicate<T> predicate)
         {
             List<T> result = new();
 
@@ -60,7 +60,7 @@
 
             return result;
         }
-        public static T FirstOrDefault<T>(T[] collection, Func<T, bool> comparer)
+        public static T MyFirstOrDefault<T>(this T[] collection, Func<T, bool> comparer)
         {
             for (int i = 0; i < collection.Length; i++)
             {
@@ -72,7 +72,7 @@
 
             return default;
         }
-        public static int FindIndex<T>(T[] collection, Predicate<T> predicate)
+        public static int FindIndex<T>(this T[] collection, Predicate<T> predicate)
         {
             for (int i = 0; i < collection.Length; i++)
             {
@@ -84,7 +84,7 @@
 
             return -1;
         }
-        public static int FindLastIndex<T>(T[] collection, Func<T, bool> predicate)
+        public static int FindLastIndex<T>(this T[] collection, Func<T, bool> predicate)
         {
             for (int i = collection.Length - 1; i >= 0; i--)
             {
@@ -95,7 +95,7 @@
             }
             return -1;
         }
-        static List<T> Distinct<T>(T[] mass)
+        static List<T> Distinct<T>(this T[] mass)
         {
             List<T> result = new();
             for (int i = 0; i < mass.Length; i++)
@@ -118,7 +118,7 @@
 
             return result;
         }
-        public static bool Any<T>(T[] collection,Predicate<T> predicate)
+        public static bool Any<T>(this T[] collection,Predicate<T> predicate)
         {
             for (int i = 0; i < collection.Length; i++)
             {
@@ -130,7 +130,7 @@
 
             return false;
         }
-        public static bool All<T>(T[] collection, Predicate<T> predicate)
+        public static bool All<T>(this T[] collection, Predicate<T> predicate)
         {
             for (int i = 0; i < collection.Length; i++)
             {
