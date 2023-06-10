@@ -6,10 +6,6 @@
 
     public static class Algorithm
     {
-        //დაწერეთ უნიკალური ელემენტების პოვნის ფუნქცია Distinct ჯენერიკად
-        //დაწერეთ ფუნქცია სახელად Any რომელიც დააბრუნებს true თუ ლისტიდან ერთი ელემენტი მაინც აკმაყოფილებს გადაცემულ პირობას(ჯენერიკად)
-        //დაწერეთ ფუნქცია სახელად All რომელიც დააბრუნებს true თუ ლისტიდან ყველა ელემენტი მაინც აკმაყოფილებს გადაცემულ პირობას(ჯენერიკად)
-
         public static T[] Take<T>(T[] vehicles, int quantity)
         {
             if (vehicles.Length <= quantity)
@@ -98,6 +94,53 @@
                 }
             }
             return -1;
+        }
+        static List<T> Distinct<T>(T[] mass)
+        {
+            List<T> result = new();
+            for (int i = 0; i < mass.Length; i++)
+            {
+                bool notUnique = false;
+                for (int j = 0; j < mass.Length; j++)
+                {
+                    if (mass[i].Equals(mass[j]) && i != j)
+                    {
+                        notUnique = true;
+                        break;
+                    }
+                }
+
+                if (!notUnique)
+                {
+                    result.Add(mass[i]);
+                }
+            }
+
+            return result;
+        }
+        public static bool Any<T>(T[] collection,Predicate<T> predicate)
+        {
+            for (int i = 0; i < collection.Length; i++)
+            {
+                if (predicate(collection[i]))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        public static bool All<T>(T[] collection, Predicate<T> predicate)
+        {
+            for (int i = 0; i < collection.Length; i++)
+            {
+                if (!predicate(collection[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }
