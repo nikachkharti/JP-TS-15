@@ -75,7 +75,7 @@ using JP_TS_15_MainConsoleProject.Shooter;
 
 //1. Player - ფული,სიცოცხლე,სახელი BuyWeapon DONE
 //2. Weapon - ტყვიების რაოდენობა,Damage,ფასი,სახელი DONE
-//3. დაწერეთ იარაღის გასროლის ლოგიკა...
+//3. დაწერეთ იარაღის გასროლის ლოგიკა... DONE
 
 
 
@@ -91,3 +91,5 @@ Console.WriteLine("--------------------------");
 playerNika.BuyWeapon(new Glock());
 playerNika.DisplayYourself();
 
+Console.WriteLine("--------------------------");
+playerNika.Shoot(playerGiorgi);
