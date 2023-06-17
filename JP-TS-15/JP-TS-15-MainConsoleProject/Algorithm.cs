@@ -60,18 +60,23 @@
 
             return result;
         }
-        public static T MyFirstOrDefault<T>(this T[] collection, Func<T, bool> comparer)
+
+
+        public static T MyFirstOrDefault<T>(this IEnumerable<T> collection, Func<T, bool> comparer)
         {
-            for (int i = 0; i < collection.Length; i++)
+            foreach (var item in collection)
             {
-                if (comparer(collection[i]))
+                if (comparer(item))
                 {
-                    return collection[i];
+                    return item;
                 }
             }
 
             return default;
         }
+
+
+
         public static int FindIndex<T>(this T[] collection, Predicate<T> predicate)
         {
             for (int i = 0; i < collection.Length; i++)
@@ -118,7 +123,7 @@
 
             return result;
         }
-        public static bool Any<T>(this T[] collection,Predicate<T> predicate)
+        public static bool Any<T>(this T[] collection, Predicate<T> predicate)
         {
             for (int i = 0; i < collection.Length; i++)
             {

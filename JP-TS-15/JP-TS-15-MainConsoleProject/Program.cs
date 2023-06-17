@@ -142,9 +142,20 @@ using JP_TS_15_MainConsoleProject.Shooter;
 
 
 
+List<int> intList = new() { 1, 2, 3 };
 
 
-Console.ReadLine();
+
+
+void NikasForeach(IEnumerable<int> source)
+{
+    var sourceEnumerator = source.GetEnumerator();
+    while (sourceEnumerator.MoveNext())
+    {
+        Console.WriteLine(sourceEnumerator.Current);
+    }
+}
+
 
 
 
