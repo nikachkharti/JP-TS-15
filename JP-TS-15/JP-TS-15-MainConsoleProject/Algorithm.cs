@@ -36,15 +36,12 @@
 
             return collection;
         }
-        public static TResult[] MySelect<TSource, TResult>(this TSource[] source, Func<TSource, TResult> selector)
+        public static IEnumerable<TResult> MySelect<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TResult> selector)
         {
-            TResult[] result = new TResult[source.Length];
-            for (int i = 0; i < source.Length; i++)
+            foreach (var item in source)
             {
-                result[i] = selector(source[i]);
+                yield return selector(item);
             }
-
-            return result;
         }
         public static IEnumerable<T> MyWhere<T>(this IEnumerable<T> collection, Predicate<T> predicate)
         {
