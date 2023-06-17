@@ -46,19 +46,15 @@
 
             return result;
         }
-        public static List<T> MyWhere<T>(this T[] collection, Predicate<T> predicate)
+        public static IEnumerable<T> MyWhere<T>(this IEnumerable<T> collection, Predicate<T> predicate)
         {
-            List<T> result = new();
-
-            for (int i = 0; i < collection.Length; i++)
+            foreach (var item in collection)
             {
-                if (predicate(collection[i]))
+                if (predicate(item))
                 {
-                    result.Add(collection[i]);
+                    yield return item;
                 }
             }
-
-            return result;
         }
 
 

@@ -143,9 +143,10 @@ using JP_TS_15_MainConsoleProject.Shooter;
 
 
 List<int> intList = new() { 1, 2, 3 };
+IEnumerable<int> t = intList.MyWhere(x => x % 2 != 0);
 
 
-
+Console.ReadLine();
 
 void NikasForeach(IEnumerable<int> source)
 {
