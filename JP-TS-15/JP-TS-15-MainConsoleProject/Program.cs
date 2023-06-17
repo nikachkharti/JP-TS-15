@@ -71,25 +71,84 @@ using JP_TS_15_MainConsoleProject.Shooter;
 
 #endregion
 
+#region Shooter Game
+//Player playerNika = new() { Name = "Nika" };
+//Player playerGiorgi = new() { Name = "Giorgi" };
+
+//playerNika.DisplayYourself();
+//playerGiorgi.DisplayYourself();
+
+//Console.WriteLine("--------------------------");
+
+//playerNika.BuyWeapon(new Glock());
+//playerNika.DisplayYourself();
+
+//Console.WriteLine("--------------------------");
+//playerNika.Shoot(playerGiorgi);
+#endregion
 
 
-//1. Player - ფული,სიცოცხლე,სახელი BuyWeapon DONE
-//2. Weapon - ტყვიების რაოდენობა,Damage,ფასი,სახელი DONE
-//3. დაწერეთ იარაღის გასროლის ლოგიკა... DONE
+#region Interfaces
+
+
+//HashSet<int> hash = new();
+//hash.Add(10);
+//hash.Add(120);
+
+//HashSet<int> hash2 = new();
+//hash2.Add(10);
+//hash2.Add(120);
+//hash2.Add(30);
+
+
+//var result = hash2.Except(hash);
+
+//foreach (var item in result)
+//{
+//    Console.WriteLine(item);
+//}
 
 
 
 
-Player playerNika = new() { Name = "Nika" };
-Player playerGiorgi = new() { Name = "Giorgi" };
+//Dictionary<string, int> dict = new();
+//dict.Add("erti", 1);
+//dict.Add("ori", 2);
+//dict.Add("sami", 3);
 
-playerNika.DisplayYourself();
-playerGiorgi.DisplayYourself();
 
-Console.WriteLine("--------------------------");
+//foreach (var item in dict)
+//{
+//    Console.WriteLine(item.Key);
+//}
 
-playerNika.BuyWeapon(new Glock());
-playerNika.DisplayYourself();
 
-Console.WriteLine("--------------------------");
-playerNika.Shoot(playerGiorgi);
+
+
+//Stack<int> intStack = new();
+//intStack.Push(20);
+//intStack.Push(30);
+//intStack.Push(40);
+
+
+//Queue<int> intQueue = new();
+
+//intQueue.Enqueue(10);
+//intQueue.Enqueue(20);
+//intQueue.Enqueue(30);
+
+//intQueue.Dequeue();
+//intQueue.Dequeue();
+
+
+
+
+
+Console.ReadLine();
+
+
+
+#endregion
+
+
+
