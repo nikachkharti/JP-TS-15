@@ -4,7 +4,6 @@ using JPTS15Bank.Models;
 CustomerRepository repo = new();
 repo.AddCustomer(new Customer()
 {
-    Id = 100,
     IdentityNumber = "12345678945",
     Email = "nika@gmail.com",
     Name = "Nika",
