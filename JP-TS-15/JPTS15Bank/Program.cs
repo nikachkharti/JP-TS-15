@@ -1,2 +1,7 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using JPTS15Bank.Repositories.Implementations;
+
+CustomerRepository repo = new();
+
+
+
+Console.ReadKey();
