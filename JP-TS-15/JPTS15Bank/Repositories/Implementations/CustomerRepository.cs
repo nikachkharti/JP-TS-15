@@ -17,11 +17,22 @@ namespace JPTS15Bank.Repositories.Implementations
                 .ToList();
         }
 
+        /// <summary>
+        /// ჩაამატებს ახალ მომხმარებელს არამარტო ლისტში არამედ ფაილშიც.
+        /// Id-ს გაზრდის ავტომატურად.
+        /// </summary>
+        /// <param name="model"></param>
         public void AddCustomer(Customer model)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// წამოიღებს პირველივე ისეთ ჩანაწერს რომელიც აკმაყოფილებს გადაცემულ ID -ს
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public Customer GetCustomerById(int id)
         {
             throw new NotImplementedException();
