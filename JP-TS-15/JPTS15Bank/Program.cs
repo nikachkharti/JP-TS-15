@@ -2,14 +2,33 @@
 using JPTS15Bank.Models;
 
 CustomerRepository repo = new();
-repo.AddCustomer(new Customer()
+
+var obj1 = new Customer()
 {
     IdentityNumber = "12345678945",
     Email = "nika@gmail.com",
-    Name = "Nika",
-    PhoneNumber = "554774411",
+    Name = "Nika Chkhartishvili",
+    PhoneNumber = "557744181",
     Type = CustomerType.Physicial
-});
+};
+
+repo.AddCustomer(obj1);
 
 
-Console.ReadKey();
+//var obj2 = new Customer()
+//{
+//    IdentityNumber = "12345678945",
+//    Email = "nika@gmail.com",
+//    Name = "Nika Chkhartishvili",
+//    PhoneNumber = "55774411",
+//    Type = CustomerType.Physicial
+//};
+
+
+
+
+
+
+
+
+

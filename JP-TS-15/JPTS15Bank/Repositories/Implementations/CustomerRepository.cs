@@ -1,4 +1,5 @@
-﻿using JPTS15Bank.Models;
+﻿using JPTS15Bank.BusinessException;
+using JPTS15Bank.Models;
 using JPTS15Bank.Repositories.Interfaces;
 
 namespace JPTS15Bank.Repositories.Implementations
@@ -24,16 +25,45 @@ namespace JPTS15Bank.Repositories.Implementations
         /// <param name="model"></param>
         public void AddCustomer(Customer model)
         {
-            //TODO მონაცემების შენახვამდე დაწერეთ ვალიდაციის ფუნქციები:
-            //1. პირადობის ნომერი უნდა იყოს 11 ნიშნა
-            //2. ტელეფონის ნომერი უდა იყოს 9 ნიშნა
-            //3. Email უნდა შეიცავდეს @ და . სიმბოლოებს
+            if (CustomerIsValid(model) && !_customers.Any(cust => cust.Equals(model)))
+            {
+                int maxId = _customers.Max(x => x.Id);
+                model.Id = maxId += 1;
 
-            int maxId = _customers.Max(x => x.Id);
-            model.Id = maxId += 1;
+                _customers.Add(model);
+                File.AppendAllText(_filePath, model.ToCsv());
+            }
+            else
+            {
+                throw new CustomerException("Invalid data appeared");
+            }
+        }
 
-            _customers.Add(model);
-            File.AppendAllText(_filePath, model.ToCsv());
+        private bool CustomerIsValid(Customer modelToCheck)
+        {
+            bool result = true;
+
+            if (string.IsNullOrWhiteSpace(modelToCheck.Name))
+            {
+                result = false;
+            }
+
+            if (modelToCheck.IdentityNumber.Length != 11)
+            {
+                result = false;
+            }
+
+            if (modelToCheck.PhoneNumber.Length != 9)
+            {
+                result = false;
+            }
+
+            if (!modelToCheck.Email.Contains('@') && !modelToCheck.Email.Contains('.'))
+            {
+                result = false;
+            }
+
+            return result;
         }
 
 
@@ -47,7 +77,7 @@ namespace JPTS15Bank.Repositories.Implementations
 
 
 
-        //TODO დაწერეთ წაშლის მეთოდი
+        //TODO Customer კლასისთვის დაწერეთ წაშლის მეთოდი
     }
 
 
