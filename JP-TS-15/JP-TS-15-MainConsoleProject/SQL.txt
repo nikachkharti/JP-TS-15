@@ -1,0 +1,72 @@
+﻿--როგორდავაყენოთ SQL ჩვენს კოპმიუტერში
+--https://www.youtube.com/watch?v=P6y0R3XzWlc
+
+--CREATE DATABASE JPTS15
+--USE JPTS15
+
+--C# string
+
+--CHAR  არ არის ოპტიმალური ვერ აღიქვამს უნიკოდს
+--NCHAR	არ არის ოპტიმალური აღიქვამს უნიკოდს
+--VARCHAR  არის ოპტიმალური ვერ აღიქვამს უნიკოდს
+--NVARCHAR არის ოპტიმალური აღიქვამს უნიკოდს
+
+
+--C#  byte short int long 
+
+--TINYINT
+--SMALLINT
+--INT
+--BIGINT
+
+
+--C# float double decimal
+
+--REAL
+--FLOAT
+
+--SMALLMONEY
+--MONEY
+--NUMERIC
+--DECIMAL(2,6)
+
+--C# bool true false
+
+--BIT 1 0
+
+
+CREATE TABLE Students
+(
+	Id INT PRIMARY KEY IDENTITY(1,1),
+	FirstName NVARCHAR(50) NOT NULL,
+	LastName NVARCHAR(50) NOT NULL,
+	Age INT NOT NULL,
+	Score FLOAT NOT NULL,
+	Attends BIT NOT NULL
+)
+
+--C# DateTime
+
+--DATETIME '1995-06-04 12:00:00'
+--DATE
+--TIME
+
+
+
+
+INSERT INTO Students(FirstName,LastName,Age,Score,Attends)
+VALUES
+--(N'ალექსანდრე',N'თელიაშვილი',16,8.3,1),
+--(N'გურამ',N'შინჯიკაშვილი',17,8.6,1),
+(N'ლაშა',N'ჟიჟიაშვილი',17,9.2,1)
+
+
+SELECT*FROM Students
+
+DELETE FROM Students
+WHERE Id = 3
+
+UPDATE Students
+SET
+	FirstName = N'გიორგი'
+WHERE FirstName = N'ალექსანდრე'
