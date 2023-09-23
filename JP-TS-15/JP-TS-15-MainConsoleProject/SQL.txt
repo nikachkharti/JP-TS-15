@@ -70,3 +70,41 @@ UPDATE Students
 SET
 	FirstName = N'გიორგი'
 WHERE FirstName = N'ალექსანდრე'
+
+
+
+ლექცია 2
+
+
+
+CREATE TABLE Students
+(
+	Id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+	FirstName NVARCHAR(50) NOT NULL,
+	LastName NVARCHAR(50) NOT NULL,
+	FullName AS FirstName + ' ' + LastName,
+	DateOfBirth DATETIME NOT NULL,
+	Age AS YEAR(GETDATE()) - YEAR(DateOfBirth),
+	Email VARCHAR(50) NULL,
+	Phone CHAR(9) NULL,
+	GroupId VARCHAR(20) DEFAULT('JP-TS-15')
+)
+
+ALTER TABLE Students
+ADD CONSTRAINT validEmail CHECK (Email LIKE '%.%' AND Email LIKE '%@%')
+
+
+INSERT INTO Students(FirstName,LastName,DateOfBirth,Email,Phone)
+VALUES
+(N'გურამ',N'შინჯიკაშვილი','2006-05-12','guram@gmail.com','551223399')
+
+
+SELECT
+	*
+FROM Students
+WHERE FirstName LIKE N'%ზ%'
+
+SELECT
+	*
+FROM Students
+ORDER BY FirstName ASC
