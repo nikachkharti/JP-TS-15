@@ -108,3 +108,8 @@ SELECT
 	*
 FROM Students
 ORDER BY FirstName ASC
+
+
+SELECT
+	Title + '(' + CAST(YEAR(ReleaseDate) AS NVARCHAR) + ')' AS TitleAndReleaseDate
+FROM Film
