@@ -1,6 +1,6 @@
 ﻿namespace Student.Library
 {
-    public class Student
+    public class StudentModel
     {
         public int Id { get; set; }
         public string? FirstName { get; set; }
