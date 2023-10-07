@@ -5,7 +5,7 @@ using Student.Service.Interfaces;
 
 namespace Student.Service
 {
-    internal class StudentServiceRepository : IStudentServiceRepository
+    public class StudentServiceRepository : IStudentServiceRepository
     {
         public List<StudentModel> GetAllStudents()
         {
