@@ -1,0 +1,30 @@
+--სტუდენტები
+
+--შექმენით ცხრილი Students
+
+--Id
+--სახელი
+--გვარი
+--დაბ.თარიღ
+--პირადი ნოემრი
+
+--CREATE TABLE Students
+--(
+--	Id INT PRIMARY KEY IDENTITY,
+--	FirstName NVARCHAR(50) NOT NULL,
+--	LastName NVARCHAR(50) NOT NULL,
+--	DateOfBirth DATETIME NOT NULL,
+--	Pin CHAR(11) NOT NULL
+--)
+
+--ALTER TABLE Students
+--ADD CONSTRAINT CK_validPin
+--CHECK (LEN(Pin) = 11)
+
+
+--INSERT INTO Students (FirstName,LastName,DateOfBirth,Pin)
+--VALUES
+--(N'ნიკა',N'კუპრაშვილი','2005-10-12','01024085123'),
+--(N'ლაშა',N'ჟიჟიაშვილი','2006-09-22','01024185123'),
+--(N'ნიკოლოზ',N'მძინარაშვილი','2006-01-20','11024185123')
+
