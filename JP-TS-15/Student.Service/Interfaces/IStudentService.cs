@@ -2,7 +2,7 @@
 
 namespace Student.Service.Interfaces
 {
-    public interface IStudentServiceRepository
+    public interface IStudentService
     {
         List<StudentModel> GetAllStudents();
     }

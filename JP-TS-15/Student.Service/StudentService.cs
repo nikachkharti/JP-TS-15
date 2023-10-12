@@ -5,13 +5,10 @@ using Student.Service.Interfaces;
 
 namespace Student.Service
 {
-    public class StudentServiceRepository : IStudentServiceRepository
+    public class StudentService : IStudentService
     {
         public List<StudentModel> GetAllStudents()
         {
-
-            //TEST
-
             const string sqlExpression = @"SELECT
 	                                        Id,
 	                                        FirstName,

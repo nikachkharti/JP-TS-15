@@ -7,8 +7,8 @@ namespace Student.Service.Tests
         [Fact]
         void Return_All_Students_From_Database()
         {
-            StudentServiceRepository studentServiceRepository = new();
-            var result = studentServiceRepository.GetAllStudents();
+            StudentService studentService = new();
+            var result = studentService.GetAllStudents();
         }
     }
 }
