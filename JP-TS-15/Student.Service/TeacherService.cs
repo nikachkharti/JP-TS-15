@@ -58,5 +58,25 @@ namespace Student.Service
 
             return result;
         }
+
+        public TeacherModel GetTeacherById(int id)
+        {
+            string sqlExpression = @$"SELECT 
+                                       [Id]
+                                       ,[FirstName]
+                                       ,[LastName]
+                                       ,[DateOfBirth]
+                                       ,[Pin]
+                                       ,[Email]
+                                       ,[Salary]
+                                     FROM [JPTS15].[dbo].[Teachers]
+                                     WHERE Id = {id}";
+
+            TeacherModel result = new();
+
+
+            return result;
+
+        }
     }
 }

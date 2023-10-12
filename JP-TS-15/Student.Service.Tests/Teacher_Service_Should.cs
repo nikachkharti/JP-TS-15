@@ -10,5 +10,11 @@ namespace Student.Service.Tests
             TeacherService teacherService = new();
             var result = teacherService.GetAllTeachers();
         }
+
+        [Fact]
+        void Return_Single_Teacher_From_Database()
+        {
+            
+        }
     }
 }
