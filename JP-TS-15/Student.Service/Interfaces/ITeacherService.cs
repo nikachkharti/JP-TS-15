@@ -5,6 +5,6 @@ namespace Student.Service.Interfaces
     public interface ITeacherService
     {
         List<TeacherModel> GetAllTeachers();
-        TeacherModel GetTeacherById(int id);
+        TeacherModel GetSingleTeacher(int id);
     }
 }

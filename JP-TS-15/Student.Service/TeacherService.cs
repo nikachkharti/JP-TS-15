@@ -59,24 +59,54 @@ namespace Student.Service
             return result;
         }
 
-        public TeacherModel GetTeacherById(int id)
+        public TeacherModel GetSingleTeacher(int id)
         {
-            string sqlExpression = @$"SELECT 
-                                       [Id]
-                                       ,[FirstName]
-                                       ,[LastName]
-                                       ,[DateOfBirth]
-                                       ,[Pin]
-                                       ,[Email]
-                                       ,[Salary]
-                                     FROM [JPTS15].[dbo].[Teachers]
-                                     WHERE Id = {id}";
+            string sqlExpression = @$"SELECT [Id]
+                                        ,[FirstName]
+                                        ,[LastName]
+                                        ,[DateOfBirth]
+                                        ,[Pin]
+                                        ,[Email]
+                                        ,[Salary]
+                                    FROM [JPTS15].[dbo].[Teachers]
+                                    WHERE Id = {id}";
 
             TeacherModel result = new();
 
+            using (SqlConnection connection = new(HelperConfig.ConnectionString))
+            {
+                try
+                {
+                    SqlCommand command = new(sqlExpression, connection);
+                    connection.Open();
+
+                    var reader = command.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            result.Id = reader.GetInt32(0);
+                            result.FirstName = reader.GetString(1);
+                            result.LastName = reader.GetString(2);
+                            result.DateOfBirth = reader.GetDateTime(3);
+                            result.Pin = reader.GetString(4);
+                            result.Email = reader.GetString(5);
+                            result.Salary = reader.GetInt32(6);
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
 
             return result;
-
         }
     }
 }
