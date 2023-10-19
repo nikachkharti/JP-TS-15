@@ -12,24 +12,12 @@ namespace Student.UI
             _teacherService = new TeacherService();
         }
 
-
-        private void getSingleStudentBtn_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void getAllTeachersBtn_Click(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
             var allTeachers = _teacherService.GetAllTeachers();
+            TeachersList.DataSource = allTeachers;
         }
 
-        private void getSingleTeacherBtn_Click(object sender, EventArgs e)
-        {
-            int.TryParse(studentIdValue.Text, out int teacherId);
-            var singleTeacher = _teacherService.GetSingleTeacher(teacherId);
 
-            teacherName.Text = $"{singleTeacher.FirstName} {singleTeacher.LastName}";
-            teacherName.Visible = true;
-        }
     }
 }

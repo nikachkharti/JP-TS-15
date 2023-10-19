@@ -6,5 +6,6 @@ namespace Student.Service.Interfaces
     {
         List<TeacherModel> GetAllTeachers();
         TeacherModel GetSingleTeacher(int id);
+        void AddNewTeacher(TeacherModel newModel);
     }
 }

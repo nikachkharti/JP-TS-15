@@ -7,6 +7,33 @@ namespace Student.Service
 {
     public class TeacherService : ITeacherService
     {
+        public void AddNewTeacher(TeacherModel newModel)
+        {
+            string sqlExpression = @$"
+            INSERT INTO Teachers(FirstName,LastName,DateOfBirth,Pin,Email,Salary)
+            VALUES
+            (N'{newModel.FirstName}',N'{newModel.LastName}','{newModel.DateOfBirth}','{newModel.Pin}','{newModel.Email}',{newModel.Salary})";
+
+            using (SqlConnection connection = new(HelperConfig.ConnectionString))
+            {
+                try
+                {
+                    SqlCommand command = new(sqlExpression, connection);
+                    command.CommandType = CommandType.Text;
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
         public List<TeacherModel> GetAllTeachers()
         {
             const string sqlExpression = @"SELECT [Id]
@@ -58,7 +85,6 @@ namespace Student.Service
 
             return result;
         }
-
         public TeacherModel GetSingleTeacher(int id)
         {
             string sqlExpression = @$"SELECT [Id]
