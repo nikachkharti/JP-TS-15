@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Student.Service", "Student.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Student.Service.Tests", "Student.Service.Tests\Student.Service.Tests.csproj", "{7E65687C-9EAA-4610-8D00-F451B7F8894F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Student.UI", "Student.UI\Student.UI.csproj", "{94F9CF1C-B6AE-4E8F-8A02-ED8DC4DD5A69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Student.UI", "Student.UI\Student.UI.csproj", "{94F9CF1C-B6AE-4E8F-8A02-ED8DC4DD5A69}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

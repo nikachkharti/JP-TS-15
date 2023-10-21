@@ -30,6 +30,10 @@
         {
             this.headerLabel = new System.Windows.Forms.Label();
             this.TeachersGroup = new System.Windows.Forms.GroupBox();
+            this.clearFormBtn = new System.Windows.Forms.Button();
+            this.updateTeacherBtn = new System.Windows.Forms.Button();
+            this.deleteBtn = new System.Windows.Forms.Button();
+            this.addTeacherBtn = new System.Windows.Forms.Button();
             this.DOBValue = new System.Windows.Forms.DateTimePicker();
             this.emailLabel = new System.Windows.Forms.Label();
             this.salaryLabel = new System.Windows.Forms.Label();
@@ -43,10 +47,6 @@
             this.lastNameValue = new System.Windows.Forms.TextBox();
             this.firstNameValue = new System.Windows.Forms.TextBox();
             this.TeachersList = new System.Windows.Forms.ListBox();
-            this.addTeacherBtn = new System.Windows.Forms.Button();
-            this.updateTeacherBtn = new System.Windows.Forms.Button();
-            this.clearFormBtn = new System.Windows.Forms.Button();
-            this.deleteBtn = new System.Windows.Forms.Button();
             this.TeachersGroup.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -86,6 +86,43 @@
             this.TeachersGroup.TabIndex = 5;
             this.TeachersGroup.TabStop = false;
             this.TeachersGroup.Text = "მასწავლებლები";
+            // 
+            // clearFormBtn
+            // 
+            this.clearFormBtn.Location = new System.Drawing.Point(293, 457);
+            this.clearFormBtn.Name = "clearFormBtn";
+            this.clearFormBtn.Size = new System.Drawing.Size(161, 23);
+            this.clearFormBtn.TabIndex = 4;
+            this.clearFormBtn.Text = "ფორმის გასუფთავება";
+            this.clearFormBtn.UseVisualStyleBackColor = true;
+            // 
+            // updateTeacherBtn
+            // 
+            this.updateTeacherBtn.Location = new System.Drawing.Point(87, 457);
+            this.updateTeacherBtn.Name = "updateTeacherBtn";
+            this.updateTeacherBtn.Size = new System.Drawing.Size(110, 23);
+            this.updateTeacherBtn.TabIndex = 4;
+            this.updateTeacherBtn.Text = "რედაქტირება";
+            this.updateTeacherBtn.UseVisualStyleBackColor = true;
+            // 
+            // deleteBtn
+            // 
+            this.deleteBtn.Location = new System.Drawing.Point(203, 457);
+            this.deleteBtn.Name = "deleteBtn";
+            this.deleteBtn.Size = new System.Drawing.Size(75, 23);
+            this.deleteBtn.TabIndex = 4;
+            this.deleteBtn.Text = "წაშლა";
+            this.deleteBtn.UseVisualStyleBackColor = true;
+            // 
+            // addTeacherBtn
+            // 
+            this.addTeacherBtn.Location = new System.Drawing.Point(6, 457);
+            this.addTeacherBtn.Name = "addTeacherBtn";
+            this.addTeacherBtn.Size = new System.Drawing.Size(75, 23);
+            this.addTeacherBtn.TabIndex = 4;
+            this.addTeacherBtn.Text = "დამატება";
+            this.addTeacherBtn.UseVisualStyleBackColor = true;
+            this.addTeacherBtn.Click += new System.EventHandler(this.addTeacherBtn_Click);
             // 
             // DOBValue
             // 
@@ -191,42 +228,6 @@
             this.TeachersList.Name = "TeachersList";
             this.TeachersList.Size = new System.Drawing.Size(448, 184);
             this.TeachersList.TabIndex = 0;
-            // 
-            // addTeacherBtn
-            // 
-            this.addTeacherBtn.Location = new System.Drawing.Point(6, 457);
-            this.addTeacherBtn.Name = "addTeacherBtn";
-            this.addTeacherBtn.Size = new System.Drawing.Size(75, 23);
-            this.addTeacherBtn.TabIndex = 4;
-            this.addTeacherBtn.Text = "დამატება";
-            this.addTeacherBtn.UseVisualStyleBackColor = true;
-            // 
-            // updateTeacherBtn
-            // 
-            this.updateTeacherBtn.Location = new System.Drawing.Point(87, 457);
-            this.updateTeacherBtn.Name = "updateTeacherBtn";
-            this.updateTeacherBtn.Size = new System.Drawing.Size(110, 23);
-            this.updateTeacherBtn.TabIndex = 4;
-            this.updateTeacherBtn.Text = "რედაქტირება";
-            this.updateTeacherBtn.UseVisualStyleBackColor = true;
-            // 
-            // clearFormBtn
-            // 
-            this.clearFormBtn.Location = new System.Drawing.Point(293, 457);
-            this.clearFormBtn.Name = "clearFormBtn";
-            this.clearFormBtn.Size = new System.Drawing.Size(161, 23);
-            this.clearFormBtn.TabIndex = 4;
-            this.clearFormBtn.Text = "ფორმის გასუფთავება";
-            this.clearFormBtn.UseVisualStyleBackColor = true;
-            // 
-            // deleteBtn
-            // 
-            this.deleteBtn.Location = new System.Drawing.Point(203, 457);
-            this.deleteBtn.Name = "deleteBtn";
-            this.deleteBtn.Size = new System.Drawing.Size(75, 23);
-            this.deleteBtn.TabIndex = 4;
-            this.deleteBtn.Text = "წაშლა";
-            this.deleteBtn.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
