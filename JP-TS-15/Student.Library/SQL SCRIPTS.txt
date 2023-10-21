@@ -1,12 +1,5 @@
---სტუდენტები
-
---შექმენით ცხრილი Students
-
---Id
---სახელი
---გვარი
---დაბ.თარიღ
---პირადი ნოემრი
+CREATE DATABASE JPTS15
+USE JPTS15
 
 --CREATE TABLE Students
 --(

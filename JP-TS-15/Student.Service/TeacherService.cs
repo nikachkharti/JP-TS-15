@@ -43,7 +43,7 @@ namespace Student.Service
                                             ,[Pin]
                                             ,[Email]
                                             ,[Salary]
-                                        FROM [JPTS15].[dbo].[Teachers]";
+                                        FROM [Teachers]";
 
             List<TeacherModel> result = new();
             using (SqlConnection connection = new(HelperConfig.ConnectionString))
@@ -94,7 +94,7 @@ namespace Student.Service
                                         ,[Pin]
                                         ,[Email]
                                         ,[Salary]
-                                    FROM [JPTS15].[dbo].[Teachers]
+                                    FROM [Teachers]
                                     WHERE Id = {id}";
 
             TeacherModel result = new();
