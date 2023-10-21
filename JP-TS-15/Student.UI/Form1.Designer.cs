@@ -228,6 +228,7 @@
             this.TeachersList.Name = "TeachersList";
             this.TeachersList.Size = new System.Drawing.Size(448, 184);
             this.TeachersList.TabIndex = 0;
+            this.TeachersList.SelectedIndexChanged += new System.EventHandler(this.TeachersList_SelectedIndexChanged);
             // 
             // Form1
             // 
