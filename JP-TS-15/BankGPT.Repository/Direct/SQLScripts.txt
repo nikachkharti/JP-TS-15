@@ -1,0 +1,20 @@
+﻿CREATE TABLE Customers 
+(
+	Id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+	FullName NVARCHAR(50) NOT NULL,
+	IdentityNumber CHAR(11) NOT NULL,
+	PhoneNumber CHAR(9) NOT NULL,
+	Email VARCHAR(50) NOT NULL,
+	[Type] CHAR(1) NOT NULL
+)
+ALTER TABLE Customers
+ADD CONSTRAINT CK_validIdentityNumber
+CHECK (LEN(IdentityNumber) = 11)
+
+ALTER TABLE Customers
+ADD CONSTRAINT CK_validPhoneNumber
+CHECK (LEN(PhoneNumber) = 9)
+
+ALTER TABLE Customers
+ADD CONSTRAINT CK_validType
+CHECK (LEN([Type]) = 1)
