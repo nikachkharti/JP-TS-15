@@ -1,0 +1,8 @@
+﻿Create Table Customer(
+CustomerId int,
+CustomerName nvarchar,
+CustomerIdentityNumber char(11) check(len(CustomerIdentityNumber) = 11),
+CustomerPhoneNumber varchar,
+CustomerEmail varchar check(CustomerEmail like '%@%'),
+CustomerType bit
+)
