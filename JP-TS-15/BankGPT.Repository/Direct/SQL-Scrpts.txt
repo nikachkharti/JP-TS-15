@@ -1,0 +1,15 @@
+﻿CREATE TABLE Customers (
+    id INT PRIMARY KEY,
+    name VARCHAR(50) CHECK (LEN(name) <= 50) not null,
+    identitynumber CHAR(11) CHECK (LEN(identitynumber) = 11) not null,
+    phonenumber VARCHAR(15) CHECK (LEN(phonenumber) >= 10) not null,
+    email VARCHAR(50) CHECK (email LIKE '%@%') not null,
+    type INT CHECK (type IN (0, 1)) not null
+);
+
+INSERT INTO Customers(id, name, identitynumber, phonenumber, email, type)
+VALUES
+    (1, 'John Doe', '12345678901', '555-123-4567', 'john@example.com', 1),
+    (2, 'Jane Smith', '98765432109', '555-987-6543', 'jane@example.com', 0),
+    (3, 'Bob Johnson', '87654321098', '555-456-7890', 'bob@example.com', 1),
+    (4, 'Alice Brown', '23456789012', '555-789-0123', 'alice@example.com', 0);
