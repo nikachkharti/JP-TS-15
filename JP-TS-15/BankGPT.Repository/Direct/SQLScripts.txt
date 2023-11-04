@@ -1,15 +1,12 @@
-﻿CREATE TABLE Customers (
-  Id INT PRIMARY KEY,
-  FullName NVARCHAR (50) CHECK(LEN(FullName) <=50) NOT NULL,
-  IdentityNumber CHAR (11) CHECK(LEN(FullName) =11) NOT NULL,
-  PhoneNumber CHAR (9) CHECK(LEN(PhoneNumber) =11) NOT NULL,
-  Email VARCHAR(50) CHECK (Email  LIKE '%@%')  NOT NULL,
-  type CHAR (1) CHECK(type IN (0,1)) NOT NULL,
-)
+﻿INSERT INTO users (user_id, username, email, age) VALUES
+(1, 'JohnDoe', 'johndoe@example.com', 30),
+(2, 'JaneSmith', 'janesmith@example.com', 28),
+(3, 'AliceJohnson', 'alicejohnson@example.com', 25);
 
-INSERT INTO Customers (Id,FullName,IdentityNumber,PhoneNumber,Email,Type)
-VALUES
-    (1, 'John Doe', '12345678901', '555-123-4567', 'john@example.com', 1),
-    (2, 'Jane Smith', '98765432109', '555-987-6543', 'jane@example.com', 0),
-    (3, 'Bob Johnson', '87654321098', '555-456-7890', 'bob@example.com', 1),
-    (4, 'Alice Brown', '23456789012', '555-789-0123', 'alice@example.com', 0);
+SELECT * FROM users WHERE user_id = 2;
+
+UPDATE users
+SET username = 'UpdatedUsername', email = 'updatedemail@example.com', age = 35
+WHERE user_id = 1;
+
+DELETE FROM users WHERE user_id = 3;
