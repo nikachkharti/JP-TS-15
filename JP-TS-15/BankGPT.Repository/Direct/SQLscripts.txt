@@ -12,4 +12,4 @@ create TABLE Customers
 
  ALTER TABLE Customers
  ADD CONSTRAINT CK_validIDE
- CHECK (LEN(IdentityNumber) = 11)
+ CHECK (LEN(IdentityNumber) =  11)
