@@ -1,4 +1,6 @@
-﻿Create Table Customer(
+﻿//Customer Table
+
+Create Table Customer(
 CustomerId int,
 CustomerName nvarchar,
 CustomerIdentityNumber char(11) check(len(CustomerIdentityNumber) = 11),
@@ -6,3 +8,64 @@ CustomerPhoneNumber varchar,
 CustomerEmail varchar check(CustomerEmail like '%@%'),
 CustomerType bit
 )
+
+
+
+///////////////////////Procedures///////////////////////////
+
+
+1//GetAllCustomers
+
+Create Procedure GetAllCustomers
+As
+Begin
+Select* from Customer
+End
+
+
+
+2//GetCustomerById
+
+Create Procedure GetCustomerById
+@Id int
+As
+Begin
+Select* from Customer
+Where CustomerId = @Id
+End
+
+
+
+3//AddCustomer
+
+Create Procedure AddCustomer
+@CustomerName nvarchar,
+@CustomerIdentityNumber char(11),
+@CustomerPhoneNumber varchar,
+@CustomerEmail varchar,
+@CustomerType bit
+As
+Begin
+
+Insert into [dbo].[Customer](
+CustomerName,
+CustomerIdentityNumber,
+CustomerPhoneNumber,
+CustomerEmail,
+CustomerType
+)
+values (@CustomerName,@CustomerIdentityNumber,@CustomerPhoneNumber,@CustomerEmail,@CustomerType)
+
+End
+
+
+
+4//RemoveCustomer
+
+Create Procedure RemoveCustomerById
+@Id int
+As
+Begin
+Select* from Customer
+Where CustomerId = @Id
+End
