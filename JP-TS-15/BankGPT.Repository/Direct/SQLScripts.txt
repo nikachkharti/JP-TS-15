@@ -1,4 +1,9 @@
-﻿CREATE TABLE Customers 
+﻿CREATE DATABASE BankGPT
+
+USE BankGPT
+
+
+CREATE TABLE Customers 
 (
 	Id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
 	FullName NVARCHAR(50) NOT NULL,
@@ -48,3 +53,50 @@ SET FullName = 'Nika Kuprashvili',
 WHERE Id = 5;
 
 DELETE FROM Customers WHERE Id = @UserID;
+
+
+CREATE PROCEDURE DeleteCustomers
+@id INT
+AS
+BEGIN
+DELETE FROM Customers WHERE Id = @id;
+END
+
+CREATE PROCEDURE AllCustomers
+AS
+BEGIN
+SELECT*FROM Customers
+END
+
+
+CREATE PROCEDURE AddCustomer
+@fullName NVARCHAR(50),
+@identityNumber CHAR(11),
+@phoneNumber CHAR(15),
+@email VARCHAR(50),
+@type CHAR(9)
+AS
+BEGIN
+	INSERT INTO Customers (FullName,IdentityNumber,PhoneNumber,Email,Type)
+	VALUES
+	(@fullName,@identityNumber,@phoneNumber,@email,@type)
+END
+
+
+CREATE PROCEDURE UpdateCustomer
+@fullName NVARCHAR(50),
+@identityNumber CHAR(11),
+@phoneNumber CHAR(15),
+@email VARCHAR(50),
+@type CHAR(9),
+@id INT
+AS
+BEGIN
+	UPDATE Customers
+    SET FullName = @fullName, 
+    IdentityNumber = @identityNumber, 
+    PhoneNumber = @phoneNumber, 
+    Email = @email, 
+    [Type] = @type
+    WHERE Id = @id;
+END
