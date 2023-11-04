@@ -7,7 +7,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Folder Include="Direct\" />
 	  <Folder Include="Entity\" />
 	</ItemGroup>
 
