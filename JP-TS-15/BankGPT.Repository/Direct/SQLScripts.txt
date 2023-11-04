@@ -1,0 +1,102 @@
+﻿CREATE DATABASE BankGPT
+
+USE BankGPT
+
+
+CREATE TABLE Customers 
+(
+	Id INT PRIMARY KEY IDENTITY(1,1) NOT NULL,
+	FullName NVARCHAR(50) NOT NULL,
+	IdentityNumber CHAR(11) NOT NULL,
+	PhoneNumber CHAR(15) NOT NULL,
+	Email VARCHAR(50) NOT NULL,
+	[Type] CHAR(9) NOT NULL
+)
+
+ALTER TABLE Customers
+ADD CONSTRAINT CK_ValidEmail
+CHECK (Email LIKE '%@%.%');
+
+INSERT INTO Customers (FullName, IdentityNumber, PhoneNumber, Email, [Type]) VALUES 
+('Berne Gianilli', '10204085123', '3722412898', 'bgianilli0@free.fr', '0'),
+('Lawry Trenbey', '55148756211', '8688036653', 'ltrenbey1@discuz.net', '0'),
+('Caterina Schulze CO', '223459874', '9601480282', 'cschulze2@ucla.edu', '1'),
+('TBC Bank', '817469251', '7653857389', 'mainBranch@tbc.com', '1'),
+('Adjarabet', '225789617', '6969457810', 'mainBranch@adjara.com', '1'),
+('Nikola Signori', '31257894521', '8586212278', 'nsignori5@blogspot.com', '0'),
+('Angelita Rothermel', '87452361574', '6789996736', 'arothermel6@kickstarter.com', '0'),
+('Aloisia Gumm', '12378469823', '1209113131', 'agumm7@jimdo.com', '0'),
+('Payton Ragsdale', '12578469823', '7871066437', 'pragsdale8@studiopress.com', '0'),
+('Costanza Richens', '47895369821', '1427710267', 'crichens9@diigo.com', '0'),
+('Rowen Danslow', '125784596', '7148078268', 'rdanslowa@java.com', '1'),
+('Goober Mantram', '236874147', '9475115702', 'gmantramb@reuters.com', '1'),
+('Raul Claricoates', '32154145893', '9318643262', 'rclaricoatesc@eepurl.com', '0'),
+('Farlie Aymerich', '32154145273', '7365636669', 'faymerichd@china.com.cn', '0'),
+('Maegan Elegood', '11879625951', '5597922519', 'melegoode@slate.com', '0'),
+('Maximilian Ipsgrave', '25712365411', '5558938629', 'mipsgravef@bbb.org', '0'),
+('Leeanne Le Noury', '11698732105', '7867573013', 'lleg@gov.uk', '0'),
+('Lem Pellman', '12698732105', '6115742632', 'lpellmanh@samsung.com', '0'),
+('Willi Hoodlass', '13691732105', '3455373400', 'whoodlassi@csmonitor.com', '0'),
+('Vaclav Sisse', '11614982105', '8507996098', 'vsissej@hexun.com', '0'),
+('Nika Chkhartishvili', '12345678945', '557744181', 'nika@gmail.com', 'Physician');
+
+DECLARE @UserID INT;
+SET @UserID = 5;
+SELECT * FROM Customers WHERE Id = @UserID;
+
+UPDATE Customers
+SET FullName = 'Nika Kuprashvili', 
+    IdentityNumber = '345128970', 
+    PhoneNumber = '599123453', 
+    Email = 'kupra@gmail.com', 
+    [Type] = '1'
+WHERE Id = 5;
+
+DELETE FROM Customers WHERE Id = @UserID;
+
+
+CREATE PROCEDURE DeleteCustomers
+@id INT
+AS
+BEGIN
+DELETE FROM Customers WHERE Id = @id;
+END
+
+CREATE PROCEDURE AllCustomers
+AS
+BEGIN
+SELECT*FROM Customers
+END
+
+
+CREATE PROCEDURE AddCustomer
+@fullName NVARCHAR(50),
+@identityNumber CHAR(11),
+@phoneNumber CHAR(15),
+@email VARCHAR(50),
+@type CHAR(9)
+AS
+BEGIN
+	INSERT INTO Customers (FullName,IdentityNumber,PhoneNumber,Email,Type)
+	VALUES
+	(@fullName,@identityNumber,@phoneNumber,@email,@type)
+END
+
+
+CREATE PROCEDURE UpdateCustomer
+@fullName NVARCHAR(50),
+@identityNumber CHAR(11),
+@phoneNumber CHAR(15),
+@email VARCHAR(50),
+@type CHAR(9),
+@id INT
+AS
+BEGIN
+	UPDATE Customers
+    SET FullName = @fullName, 
+    IdentityNumber = @identityNumber, 
+    PhoneNumber = @phoneNumber, 
+    Email = @email, 
+    [Type] = @type
+    WHERE Id = @id;
+END
