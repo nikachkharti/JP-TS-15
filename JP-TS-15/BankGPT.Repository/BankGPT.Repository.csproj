@@ -7,11 +7,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Folder Include="Direct\" />
-	  <Folder Include="Entity\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <ProjectReference Include="..\BankGPT.Library\BankGPT.Library.csproj" />
 	</ItemGroup>
 

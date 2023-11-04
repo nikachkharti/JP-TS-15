@@ -1,0 +1,15 @@
+﻿CREATE DATABASE BANKGPT
+
+create TABLE Customers
+(
+  CustomersID INT PRIMARY KEY IDENTITY,
+  Fullname VARCHAR (50),
+  IdentityNumber CHAR (11),
+  PhoneNumber CHAR (20),
+  Email NVARCHAR (100),
+  [Type] BIT
+ )
+
+ ALTER TABLE Customers
+ ADD CONSTRAINT CK_validIDE
+ CHECK (LEN(IdentityNumber) = 11)
