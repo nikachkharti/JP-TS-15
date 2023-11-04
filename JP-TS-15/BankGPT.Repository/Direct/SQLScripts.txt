@@ -10,3 +10,34 @@ SET username = 'UpdatedUsername', email = 'updatedemail@example.com', age = 35
 WHERE user_id = 1;
 
 DELETE FROM users WHERE user_id = 3;
+
+
+
+
+
+CREATE PROCEDURE GetUser(
+    IN p_user_id INT
+)
+BEGIN
+    SELECT * FROM users WHERE user_id = p_user_id;
+END
+
+CREATE PROCEDURE UpdateUser(
+    IN p_user_id INT,
+    IN p_new_username VARCHAR(255),
+    IN p_new_email VARCHAR(255),
+    IN p_new_age INT
+)
+BEGIN
+    UPDATE users
+    SET username = p_new_username, email = p_new_email, age = p_new_age
+    WHERE user_id = p_user_id;
+END
+
+CREATE PROCEDURE DeleteUser(
+    IN p_user_id INT
+)
+BEGIN
+    DELETE FROM users WHERE user_id = p_user_id;
+END
+
