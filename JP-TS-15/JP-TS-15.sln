@@ -9,11 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JPTS15Bank", "JPTS15Bank\JP
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OLD", "OLD", "{03DA4A8A-E074-4F87-B627-EC8C4737F0C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankGPT.Library", "BankGPT.Library\BankGPT.Library.csproj", "{1887E2C6-BE10-4411-A6F8-FD284A5E0D5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankGPT.Library", "BankGPT.Library\BankGPT.Library.csproj", "{1887E2C6-BE10-4411-A6F8-FD284A5E0D5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankGPT.Repository", "BankGPT.Repository\BankGPT.Repository.csproj", "{A3C04839-0E98-47F5-838C-F5708F85EE7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankGPT.Repository", "BankGPT.Repository\BankGPT.Repository.csproj", "{A3C04839-0E98-47F5-838C-F5708F85EE7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankGPT.Tests", "BankGPT.Tests\BankGPT.Tests.csproj", "{352C2054-D58E-4249-8336-C3B4A50FD933}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BankGPT.Tests", "BankGPT.Tests\BankGPT.Tests.csproj", "{352C2054-D58E-4249-8336-C3B4A50FD933}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

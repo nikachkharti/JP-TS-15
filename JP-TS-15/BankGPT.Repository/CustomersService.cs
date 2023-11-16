@@ -65,7 +65,7 @@ namespace BankGPT.Repository
             }
         }
 
-        public List<CustomersModel> GetAllCustomers()
+        public async Task<List<CustomersModel>> GetAllCustomers()
         {
             const string sqlExpression = "AllCustomers";
 
@@ -78,13 +78,13 @@ namespace BankGPT.Repository
                     SqlCommand command = new(sqlExpression, connection);
                     command.CommandType = CommandType.StoredProcedure;
 
-                    connection.Open();
+                    await connection.OpenAsync();
 
-                    SqlDataReader reader = command.ExecuteReader();
+                    SqlDataReader reader = await command.ExecuteReaderAsync();
 
                     if (reader.HasRows)
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
                             result.Add(new CustomersModel
                             {

@@ -1,5 +1,6 @@
 ﻿using BankGPT.Library;
 using BankGPT.Repository;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Student.Service.Tests
@@ -13,9 +14,9 @@ namespace Student.Service.Tests
         }
 
         [Fact]
-        void Return_All_Customers_From_Database()
+        async Task Return_All_Customers_From_DatabaseAsync()
         {
-            var result = _customerService.GetAllCustomers();
+            var result = await _customerService.GetAllCustomers();
         }
 
 
