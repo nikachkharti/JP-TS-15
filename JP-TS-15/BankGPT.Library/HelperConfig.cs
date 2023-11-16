@@ -2,6 +2,6 @@
 {
     public static class HelperConfig
     {
-        public static string ConnectionString { get; } = @"Server=NIKASLAPTOP\MSSQLSERVERNEW;Database=BankGPT;Trusted_Connection=True;TrustServerCertificate=True";
+        public static string ConnectionString { get; } = @"Server=T-21-01\SQLEXPRESS;Database=BankGPT;Trusted_Connection=True;TrustServerCertificate=True";
     }
 }
