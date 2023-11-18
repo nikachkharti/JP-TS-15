@@ -1,13 +1,41 @@
-﻿using BankGPT.Library;
+﻿using Microsoft.Data.SqlClient;
+using BankGPT.Library;
 using BankGPT.Repository.Interfaces;
+using System.Data;
 
 namespace BankGPT.Repository
 {
     public class AccountService : IAccountService
     {
-        public Task CreateAccountAsync(AccountModel accountModel)
+        public async Task CreateAccountAsync(AccountModel accountModel)
         {
-            throw new NotImplementedException();
+            const string sqlExpression = "AddAccount";
+
+            using (SqlConnection connection = new(HelperConfig.ConnectionString))
+            {
+                try
+                {
+                    SqlCommand command = new(sqlExpression, connection);
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("iban", accountModel.Iban);
+                    command.Parameters.AddWithValue("Currency", accountModel.Currency);
+                    command.Parameters.AddWithValue("balance", accountModel.Balance);
+                    command.Parameters.AddWithValue("customerId", accountModel.CustomerId);
+                    command.Parameters.AddWithValue("name", accountModel.Name);
+
+                    await connection.OpenAsync();
+                    await command.ExecuteNonQueryAsync();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    await connection.CloseAsync();
+                }
+            }
         }
 
         public Task DeleteAccountAsync(int accountId)
