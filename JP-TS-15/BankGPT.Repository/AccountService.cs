@@ -1,15 +1,15 @@
-﻿using Microsoft.Data.SqlClient;
-using BankGPT.Library;
+﻿using BankGPT.Library;
 using BankGPT.Repository.Interfaces;
 using System.Data;
+using Microsoft.Data.SqlClient;
 
 namespace BankGPT.Repository
 {
-    public class CustomersService : ICustomersService
+    public class AccountService : IAccountService
     {
-        public async Task CreateCustomerAsync(CustomersModel customersModel)
+        public async Task CreateAccountAsync(AccountModel accountModel)
         {
-            const string sqlExpression = "AddCustomer";
+            const string sqlExpression = "AddAccount";
 
             using (SqlConnection connection = new(HelperConfig.ConnectionString))
             {
@@ -18,11 +18,11 @@ namespace BankGPT.Repository
                     SqlCommand command = new(sqlExpression, connection);
                     command.CommandType = CommandType.StoredProcedure;
 
-                    command.Parameters.AddWithValue("fullName", customersModel.FullName);
-                    command.Parameters.AddWithValue("identityNumber", customersModel.IdentityNumber);
-                    command.Parameters.AddWithValue("phoneNumber", customersModel.PhoneNumber);
-                    command.Parameters.AddWithValue("email", customersModel.Email);
-                    command.Parameters.AddWithValue("type", customersModel.Type);
+                    command.Parameters.AddWithValue("Iban", accountModel.Iban);
+                    command.Parameters.AddWithValue("Currency", accountModel.Currency);
+                    command.Parameters.AddWithValue("Balance", accountModel.Balance);
+                    command.Parameters.AddWithValue("CustomerId", accountModel.CustomerId);
+                    command.Parameters.AddWithValue("Name", accountModel.Name);
 
                     await connection.OpenAsync();
                     await command.ExecuteNonQueryAsync();
@@ -38,9 +38,9 @@ namespace BankGPT.Repository
             }
         }
 
-        public async Task DeleteCustomerAsync(int id)
+        public async Task DeleteAccountAsync(int accountId)
         {
-            const string sqlExpression = "DeleteCustomers";
+            const string sqlExpression = "DeleteAccounts";
 
             using (SqlConnection connection = new(HelperConfig.ConnectionString))
             {
@@ -49,7 +49,7 @@ namespace BankGPT.Repository
                     SqlCommand command = new(sqlExpression, connection);
                     command.CommandType = CommandType.StoredProcedure;
 
-                    command.Parameters.AddWithValue("id", id);
+                    command.Parameters.AddWithValue("id", accountId);
 
                     await connection.OpenAsync();
                     await command.ExecuteNonQueryAsync();
@@ -65,11 +65,11 @@ namespace BankGPT.Repository
             }
         }
 
-        public async Task<List<CustomersModel>> GetAllCustomersAsync()
+        public async Task<List<AccountModel>> GetAllAccountsAsync()
         {
-            const string sqlExpression = "AllCustomers";
+            const string sqlExpression = "AllAccounts";
 
-            List<CustomersModel> result = new();
+            List<AccountModel> result = new();
 
             using (SqlConnection connection = new(HelperConfig.ConnectionString))
             {
@@ -86,14 +86,14 @@ namespace BankGPT.Repository
                     {
                         while (await reader.ReadAsync())
                         {
-                            result.Add(new CustomersModel
+                            result.Add(new AccountModel
                             {
                                 Id = reader.GetInt32(0),
-                                FullName = reader.GetString(1),
-                                IdentityNumber = reader.GetString(2),
-                                PhoneNumber = reader.GetString(3),
-                                Email = reader.GetString(4),
-                                Type = reader.GetString(5),
+                                Iban = reader.GetString(1),
+                                Currency = reader.GetString(2),
+                                Balance = reader.GetFloat(3),
+                                CustomerId = reader.GetInt32(4),
+                                Name = reader.GetString(5),
                             });
                         }
                     }
@@ -112,11 +112,9 @@ namespace BankGPT.Repository
             return result;
         }
 
-        public async Task<CustomersModel> GetSingleCustomerAsync(int id)
+        public async Task<List<AccountModel>> GetAllAccountsOfCustomerAsync()
         {
-            const string sqlExpression = "SingleCustomer";
-
-            CustomersModel result = new();
+            const string sqlExpression = "AllAccountsByCustomerId";
 
             using (SqlConnection connection = new(HelperConfig.ConnectionString))
             {
@@ -124,7 +122,6 @@ namespace BankGPT.Repository
                 {
                     SqlCommand command = new(sqlExpression, connection);
                     command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("id", id);
 
                     await connection.OpenAsync();
 
@@ -157,9 +154,9 @@ namespace BankGPT.Repository
             return result;
         }
 
-        public async Task UpdateCustomerAsync(CustomersModel customersModel)
+        public async Task UpdateAccountAsync(AccountModel accountModel)
         {
-            const string sqlExpression = "UpdateCustomer";
+            const string sqlExpression = "UpdateAccount";
 
             using (SqlConnection connection = new(HelperConfig.ConnectionString))
             {
@@ -168,12 +165,12 @@ namespace BankGPT.Repository
                     SqlCommand command = new(sqlExpression, connection);
                     command.CommandType = CommandType.StoredProcedure;
 
-                    command.Parameters.AddWithValue("fullName", customersModel.FullName);
-                    command.Parameters.AddWithValue("identityNumber", customersModel.IdentityNumber);
-                    command.Parameters.AddWithValue("phoneNumber", customersModel.PhoneNumber);
-                    command.Parameters.AddWithValue("email", customersModel.Email);
-                    command.Parameters.AddWithValue("type", customersModel.Type);
-                    command.Parameters.AddWithValue("id", customersModel.Id);
+                    command.Parameters.AddWithValue("Iban", accountModel.Iban);
+                    command.Parameters.AddWithValue("Currency", accountModel.Currency);
+                    command.Parameters.AddWithValue("Balance", accountModel.Balance);
+                    command.Parameters.AddWithValue("CustomerId", accountModel.CustomerId);
+                    command.Parameters.AddWithValue("Name", accountModel.Name);
+                    command.Parameters.AddWithValue("id", accountModel.Id);
 
                     await connection.OpenAsync();
                     await command.ExecuteNonQueryAsync();

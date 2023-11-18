@@ -102,3 +102,120 @@ BEGIN
 END
 
 
+--ACCOUNTS
+
+--CREATE TABLE Accounts(
+--	Id INT PRIMARY KEY IDENTITY NOT NULL,
+--	Iban VARCHAR(MAX) NOT NULL,
+--	Currency CHAR(3) NOT NULL,
+--	Balance FLOAT NOT NULL,
+--	CustomerId INT FOREIGN KEY REFERENCES Customers(Id),
+--	[Name] NVARCHAR(MAX) NULL
+--)
+
+
+--INSERT INTO Accounts (Iban,Currency,Balance,CustomerId,[Name])
+--VALUES
+--('KW51OOWLC6GNFGYVIFYA2EYQFRIRDI','USD',982.716,20,NULL),
+--('SE8107757929296804573617','EUR',115.237,10,'For Business'),
+--('IL594377648626632336159','EUR',172.493,17,NULL),
+--('BE98655127938368','JPY',515.929,17,NULL),
+--('DO66RHXT07326224037774994951','GEL',595.359,4,NULL),
+--('AT668251706578569744','CAD',415.307,16,NULL),
+--('FR236941468832FFTOQTG5JEF82','EUR',933.992,1,'For Business'),
+--('GB40MLLH34220308873001','EUR',296.283,9,'For Education'),
+--('SI58002770087333534','CAD',304.103,14,NULL),
+--('FR291381474789SV7RTRASME','GEL',522.042,10,NULL),
+--('BR3693593997808320356379166Y','EUR',382.74,3,NULL)
+
+
+
+--CREATE PROCEDURE AddAccount
+--@iban VARCHAR(MAX),
+--@currency CHAR(3),
+--@balance FLOAT,
+--@customerId INT,
+--@name NVARCHAR(MAX)
+--AS
+--BEGIN
+--	INSERT INTO Accounts (Iban,Currency,Balance,CustomerId,[Name])
+--	VALUES (@iban,@currency,@balance,@customerId,@name)
+--END
+
+
+
+--CREATE PROCEDURE AllAccounts
+--AS
+--BEGIN
+--	SELECT  [Id]
+--      ,[Iban]
+--      ,[Currency]
+--      ,[Balance]
+--      ,[CustomerId]
+--      ,[Name]
+--  FROM [BankGPT].[dbo].[Accounts]
+--END
+
+
+
+--CREATE PROCEDURE SingleAccount
+--@id INT
+--AS
+--BEGIN
+--	SELECT  [Id]
+--      ,[Iban]
+--      ,[Currency]
+--      ,[Balance]
+--      ,[CustomerId]
+--      ,[Name]
+--	FROM [BankGPT].[dbo].[Accounts]
+--	WHERE Id = @id
+--END
+
+
+
+--CREATE PROCEDURE DeleteAccount
+--@id INT
+--AS
+--BEGIN
+--	DELETE FROM Accounts
+--	WHERE Id = @id
+--END
+
+
+
+--CREATE PROCEDURE UpdateAccount
+--@iban VARCHAR(MAX),
+--@currency CHAR(3),
+--@balance FLOAT,
+--@customerId INT,
+--@name NVARCHAR(MAX),
+--@id INT
+--AS
+--BEGIN
+--	UPDATE Accounts
+--	SET
+--		Iban = @iban,
+--		Currency= @currency,
+--		Balance = @balance,
+--		CustomerId = @customerId,
+--		[Name] = @name
+--	WHERE
+--	 Id = @id
+--END
+
+
+
+--CREATE PROCEDURE AllAccountsByCustomerId
+--@customerId INT
+--AS
+--BEGIN
+--	SELECT  [Id]
+--      ,[Iban]
+--      ,[Currency]
+--      ,[Balance]
+--      ,[CustomerId]
+--      ,[Name]
+--  FROM [BankGPT].[dbo].[Accounts]
+--  WHERE CustomerId = @customerId
+--END
