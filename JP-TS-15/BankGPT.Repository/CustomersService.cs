@@ -7,7 +7,7 @@ namespace BankGPT.Repository
 {
     public class CustomersService : ICustomersService
     {
-        public void CreateCustomer(CustomersModel customersModel)
+        public async Task CreateCustomerAsync(CustomersModel customersModel)
         {
             const string sqlExpression = "AddCustomer";
 
@@ -24,8 +24,8 @@ namespace BankGPT.Repository
                     command.Parameters.AddWithValue("email", customersModel.Email);
                     command.Parameters.AddWithValue("type", customersModel.Type);
 
-                    connection.Open();
-                    command.ExecuteNonQuery();
+                    await connection.OpenAsync();
+                    await command.ExecuteNonQueryAsync();
                 }
                 catch (Exception)
                 {
@@ -33,12 +33,12 @@ namespace BankGPT.Repository
                 }
                 finally
                 {
-                    connection.Close();
+                    await connection.CloseAsync();
                 }
             }
         }
 
-        public void DeleteCustomer(int id)
+        public async Task DeleteCustomerAsync(int id)
         {
             const string sqlExpression = "DeleteCustomers";
 
@@ -51,8 +51,8 @@ namespace BankGPT.Repository
 
                     command.Parameters.AddWithValue("id", id);
 
-                    connection.Open();
-                    command.ExecuteNonQuery();
+                    await connection.OpenAsync();
+                    await command.ExecuteNonQueryAsync();
                 }
                 catch (Exception)
                 {
@@ -60,12 +60,12 @@ namespace BankGPT.Repository
                 }
                 finally
                 {
-                    connection.Close();
+                    await connection.CloseAsync();
                 }
             }
         }
 
-        public async Task<List<CustomersModel>> GetAllCustomers()
+        public async Task<List<CustomersModel>> GetAllCustomersAsync()
         {
             const string sqlExpression = "AllCustomers";
 
@@ -112,7 +112,7 @@ namespace BankGPT.Repository
             return result;
         }
 
-        public CustomersModel GetSingleCustomer(int id)
+        public async Task<CustomersModel> GetSingleCustomerAsync(int id)
         {
             const string sqlExpression = "SingleCustomer";
 
@@ -126,13 +126,13 @@ namespace BankGPT.Repository
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("id", id);
 
-                    connection.Open();
+                    await connection.OpenAsync();
 
-                    SqlDataReader reader = command.ExecuteReader();
+                    SqlDataReader reader = await command.ExecuteReaderAsync();
 
                     if (reader.HasRows)
                     {
-                        while (reader.Read())
+                        while (await reader.ReadAsync())
                         {
                             result.Id = reader.GetInt32(0);
                             result.FullName = reader.GetString(1);
@@ -149,7 +149,7 @@ namespace BankGPT.Repository
                 }
                 finally
                 {
-                    connection.Close();
+                    await connection.CloseAsync();
                 }
             }
 
@@ -157,7 +157,7 @@ namespace BankGPT.Repository
             return result;
         }
 
-        public void UpdateCustomer(CustomersModel customersModel)
+        public async Task UpdateCustomerAsync(CustomersModel customersModel)
         {
             const string sqlExpression = "UpdateCustomer";
 
@@ -175,8 +175,8 @@ namespace BankGPT.Repository
                     command.Parameters.AddWithValue("type", customersModel.Type);
                     command.Parameters.AddWithValue("id", customersModel.Id);
 
-                    connection.Open();
-                    command.ExecuteNonQuery();
+                    await connection.OpenAsync();
+                    await command.ExecuteNonQueryAsync();
                 }
                 catch (Exception)
                 {
@@ -184,7 +184,7 @@ namespace BankGPT.Repository
                 }
                 finally
                 {
-                    connection.Close();
+                    await connection.CloseAsync();
                 }
             }
         }

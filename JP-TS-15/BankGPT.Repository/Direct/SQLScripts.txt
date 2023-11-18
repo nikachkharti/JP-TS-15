@@ -203,3 +203,19 @@ END
 --	WHERE
 --	 Id = @id
 --END
+
+
+
+--CREATE PROCEDURE AllAccountsByCustomerId
+--@customerId INT
+--AS
+--BEGIN
+--	SELECT  [Id]
+--      ,[Iban]
+--      ,[Currency]
+--      ,[Balance]
+--      ,[CustomerId]
+--      ,[Name]
+--  FROM [BankGPT].[dbo].[Accounts]
+--  WHERE CustomerId = @customerId
+--END

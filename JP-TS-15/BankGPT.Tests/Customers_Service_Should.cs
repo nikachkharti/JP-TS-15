@@ -1,14 +1,15 @@
 ﻿using BankGPT.Library;
 using BankGPT.Repository;
+using BankGPT.Repository.Interfaces;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Student.Service.Tests
+namespace BankGPT.Tests
 {
-    public class Student_Service_Should
+    public class Customers_Service_Should
     {
-        private readonly CustomersService _customerService;
-        public Student_Service_Should()
+        private readonly ICustomersService _customerService;
+        public Customers_Service_Should()
         {
             _customerService = new CustomersService();
         }
@@ -16,18 +17,18 @@ namespace Student.Service.Tests
         [Fact]
         async Task Return_All_Customers_From_DatabaseAsync()
         {
-            var result = await _customerService.GetAllCustomers();
+            var result = await _customerService.GetAllCustomersAsync();
         }
 
 
         [Fact]
-        void Return_Single_Customer_From_Database()
+        async void Return_Single_Customer_From_Database()
         {
-            var result = _customerService.GetSingleCustomer(1);
+            var result = await _customerService.GetSingleCustomerAsync(1);
         }
 
         [Fact]
-        void Create_Customer_In_Database()
+        async void Create_Customer_In_Database()
         {
             CustomersModel newCustomer = new()
             {
@@ -38,17 +39,17 @@ namespace Student.Service.Tests
                 Type = "Phyisical"
             };
 
-            _customerService.CreateCustomer(newCustomer);
+            await _customerService.CreateCustomerAsync(newCustomer);
         }
 
         [Fact]
-        void Delete_Customer_In_Database()
+        async void Delete_Customer_In_Database()
         {
-            _customerService.DeleteCustomer(22);
+            await _customerService.DeleteCustomerAsync(22);
         }
 
         [Fact]
-        void Update_Customer_In_Database()
+        async void Update_Customer_In_Database()
         {
             CustomersModel newCustomer = new()
             {
@@ -59,7 +60,8 @@ namespace Student.Service.Tests
                 PhoneNumber = "555337681",
                 Type = "Phyisical"
             };
-            _customerService.UpdateCustomer(newCustomer);
+
+            await _customerService.UpdateCustomerAsync(newCustomer);
         }
 
     }
