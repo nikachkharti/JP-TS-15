@@ -7,8 +7,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Folder Include="Direct\" />
 	  <Folder Include="Entity\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.2" />
 	</ItemGroup>
 
 	<ItemGroup>
