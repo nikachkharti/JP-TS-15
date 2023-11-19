@@ -219,3 +219,94 @@ END
 --  FROM [BankGPT].[dbo].[Accounts]
 --  WHERE CustomerId = @customerId
 --END
+
+
+
+
+
+
+
+
+
+-- OPERATIONS
+
+CREATE TABLE Operations
+(
+	Id INT PRIMARY KEY IDENTITY NOT NULL,
+	[Type] VARCHAR(MAX) NOT NULL,
+	Currency CHAR(3) NOT NULL,
+	Amount FLOAT NOT NULL,
+	AccountId INT FOREIGN KEY REFERENCES Accounts(Id),
+	CustomerId INT FOREIGN KEY REFERENCES Customers(Id),
+	HappendAt DATETIME NOT NULL
+)
+
+
+CREATE PROCEDURE AllOperations
+AS
+BEGIN
+	SELECT [Id]
+      ,[Type]
+      ,[Currency]
+      ,[Amount]
+      ,[AccountId]
+      ,[CustomerId]
+      ,[HappendAt]
+  FROM [BankGPT].[dbo].[Operations]
+END
+
+
+CREATE PROCEDURE AllOperationsForAccount
+@accountId INT
+AS
+BEGIN
+	SELECT [Id]
+      ,[Type]
+      ,[Currency]
+      ,[Amount]
+      ,[AccountId]
+      ,[CustomerId]
+      ,[HappendAt]
+  FROM [BankGPT].[dbo].[Operations]
+  WHERE AccountId = @accountId
+END
+
+
+CREATE PROCEDURE AllOperationsForCustomer
+@customerId INT
+AS
+BEGIN
+	SELECT [Id]
+      ,[Type]
+      ,[Currency]
+      ,[Amount]
+      ,[AccountId]
+      ,[CustomerId]
+      ,[HappendAt]
+  FROM [BankGPT].[dbo].[Operations]
+  WHERE CustomerId = @customerId
+END
+
+
+CREATE PROCEDURE CreateOperation
+@type VARCHAR(MAX),
+@currency CHAR(3),
+@amount FLOAT,
+@accountId INT,
+@customerId INT,
+@happendAt DATETIME
+AS
+BEGIN
+	INSERT INTO [dbo].[Operations] ([Type],Currency,Amount,AccountId,CustomerId,HappendAt)
+	VALUES
+	(@type,@currency,@amount,@accountId,@customerId,@happendAt)
+END
+
+
+CREATE PROCEDURE DeleteOperation
+@operationId INT
+AS
+BEGIN
+	DELETE FROM Operations
+	WHERE Id = @operationId
+END
