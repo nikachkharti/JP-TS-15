@@ -1,5 +1,8 @@
 ﻿using BankGPT.Library;
 using BankGPT.Repository.Interfaces;
+using Microsoft.Data.SqlClient;
+using Microsoft.Identity.Client;
+using System.Data;
 
 namespace BankGPT.Repository
 {
@@ -10,24 +13,171 @@ namespace BankGPT.Repository
             throw new NotImplementedException();
         }
 
-        public Task DeleteOperationAsync(int operationId)
+        public async Task DeleteOperationAsync(int operationId)
         {
-            throw new NotImplementedException();
+            const string sqlExpression = "DeleteOperation";
+
+            using (SqlConnection connection = new(HelperConfig.ConnectionString))
+            {
+                try
+                {
+                    SqlCommand command = new(sqlExpression, connection);
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("id", operationId);
+
+                    await connection.OpenAsync();
+                    await command.ExecuteNonQueryAsync();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    await connection.CloseAsync();
+                }
+            }
         }
 
-        public Task<List<OperationModel>> GetAllOperationsAsync()
+        public async Task<List<OperationModel>> GetAllOperationsAsync()
         {
-            throw new NotImplementedException();
+            const string sqlExpression = "AllOperations";
+
+            List<OperationModel> result = new();
+
+            using (SqlConnection connection = new(HelperConfig.ConnectionString))
+            {
+                try
+                {
+                    SqlCommand command = new(sqlExpression, connection);
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    await connection.OpenAsync();
+
+                    SqlDataReader reader = await command.ExecuteReaderAsync();
+
+                    if (reader.HasRows)
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            result.Add(new OperationModel
+                            {
+                                Id = reader.GetInt32(0),
+                                Type = reader.GetString(1),
+                                Currency = reader.GetString(2),
+                                Amount = reader.GetDouble(3),
+                                AccountId = reader.GetInt32(4),
+                                CustomerId = reader.GetInt32(5),
+                                HappendAt = reader.GetDateTime(6)
+                            });
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+
+
+            return result;
         }
 
-        public Task<List<OperationModel>> GetAllOperationsForAccountAsync(int accountId)
+        public async Task<OperationModel> GetAllOperationsForAccountAsync(int accountId)
         {
-            throw new NotImplementedException();
+            const string sqlExpression = "AllOperationsForAccount";
+
+            OperationModel result = new();
+
+            using (SqlConnection connection = new(HelperConfig.ConnectionString))
+            {
+                try
+                {
+                    SqlCommand command = new(sqlExpression, connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("id", accountId);
+
+                    await connection.OpenAsync();
+
+                    SqlDataReader reader = await command.ExecuteReaderAsync();
+
+                    if (reader.HasRows)
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            result.Id = reader.GetInt32(0);
+                            result.Type = reader.GetString(1);
+                            result.Currency = reader.GetString(2);
+                            result.Amount = reader.GetDouble(3);
+                            result.AccountId = reader.GetInt32(4);
+                            result.CustomerId = reader.GetInt32(5);
+                            result.HappendAt = reader.GetDateTime(6);
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    await connection.CloseAsync();
+                }
+            }
+
+
+            return result;
         }
 
-        public Task<List<OperationModel>> GetAllOperationsForCustomerAsync(int customerId)
+        public async Task<OperationModel> GetAllOperationsForCustomerAsync(int customerId)
         {
-            throw new NotImplementedException();
+            const string sqlExpression = "AllOperationsForCustomer";
+
+            OperationModel result = new();
+
+            using (SqlConnection connection = new(HelperConfig.ConnectionString))
+            {
+                try
+                {
+                    SqlCommand command = new(sqlExpression, connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("id", customerId);
+
+                    await connection.OpenAsync();
+
+                    SqlDataReader reader = await command.ExecuteReaderAsync();
+
+                    if (reader.HasRows)
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            result.Id = reader.GetInt32(0);
+                            result.Type = reader.GetString(1);
+                            result.Currency = reader.GetString(2);
+                            result.Amount = reader.GetDouble(3);
+                            result.AccountId = reader.GetInt32(4);
+                            result.CustomerId = reader.GetInt32(5);
+                            result.HappendAt = reader.GetDateTime(6);
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    await connection.CloseAsync();
+                }
+            }
+
+
+            return result;
         }
     }
 }
