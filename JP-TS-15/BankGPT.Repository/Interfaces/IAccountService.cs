@@ -9,5 +9,6 @@ namespace BankGPT.Repository.Interfaces
         Task UpdateAccountAsync(AccountModel accountModel);
         Task DeleteAccountAsync(int accountId);
         Task<AccountModel> GetSingleAccountAsync(int accountId);
+        Task<List<AccountModel>> GetAllAccountsOfCustomerAsync(int customerId);
     }
 }

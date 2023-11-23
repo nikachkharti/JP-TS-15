@@ -124,7 +124,7 @@ namespace BankGPT.Repository
                 {
                     SqlCommand command = new(sqlExpression, connection);
                     command.CommandType = CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("id", id);
+                    command.Parameters.AddWithValue("customerId", id);
 
                     await connection.OpenAsync();
 

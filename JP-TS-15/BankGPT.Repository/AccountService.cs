@@ -112,6 +112,53 @@ namespace BankGPT.Repository
             return result;
         }
 
+        public async Task<List<AccountModel>> GetAllAccountsOfCustomerAsync(int customerId)
+        {
+            const string sqlExpression = "AllAccountsForCustomer";
+
+            List<AccountModel> result = new();
+
+            using (SqlConnection connection = new(HelperConfig.ConnectionString))
+            {
+                try
+                {
+                    SqlCommand command = new(sqlExpression, connection);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("customerId", customerId);
+
+                    await connection.OpenAsync();
+
+                    SqlDataReader reader = await command.ExecuteReaderAsync();
+
+                    if (reader.HasRows)
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            result.Add(new AccountModel
+                            {
+                                Id = reader.GetInt32(0),
+                                Iban = reader.GetString(1),
+                                Currency = reader.GetString(2),
+                                Balance = reader.GetDouble(3),
+                                CustomerId = reader.GetInt32(4),
+                                Name = reader.GetString(5),
+                            });
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+
+            return result;
+        }
+
         public async Task<AccountModel> GetSingleAccountAsync(int accountId)
         {
             const string sqlExpression = "SingleAccount";
@@ -189,6 +236,6 @@ namespace BankGPT.Repository
             }
         }
 
-        
+
     }
 }

@@ -8,9 +8,36 @@ namespace BankGPT.Repository
 {
     public class OperationService : IOperationService
     {
-        public Task CreateOperationAsync(OperationModel model)
+        public async Task CreateOperationAsync(OperationModel model)
         {
-            throw new NotImplementedException();
+            const string sqlExpression = "CreateOperation";
+
+            using (SqlConnection connection = new(HelperConfig.ConnectionString))
+            {
+                try
+                {
+                    SqlCommand command = new(sqlExpression, connection);
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("type", model.Type);
+                    command.Parameters.AddWithValue("currency", model.Currency);
+                    command.Parameters.AddWithValue("amount", model.Amount);
+                    command.Parameters.AddWithValue("customerId", model.CustomerId);
+                    command.Parameters.AddWithValue("accountId", model.AccountId);
+                    command.Parameters.AddWithValue("happendAt", model.HappendAt);
+
+                    await connection.OpenAsync();
+                    await command.ExecuteNonQueryAsync();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    await connection.CloseAsync();
+                }
+            }
         }
 
         public async Task DeleteOperationAsync(int operationId)

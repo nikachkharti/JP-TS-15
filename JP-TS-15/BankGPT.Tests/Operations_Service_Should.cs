@@ -1,6 +1,7 @@
 ﻿using BankGPT.Library;
 using BankGPT.Repository;
 using BankGPT.Repository.Interfaces;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 namespace BankGPT.Tests
@@ -8,10 +9,14 @@ namespace BankGPT.Tests
     public class Operations_Service_Should
     {
         private readonly IOperationService _operationService;
+        private readonly IAccountService _accountService;
+        private readonly ICustomersService _customersService;
 
         public Operations_Service_Should()
         {
             _operationService = new OperationService();
+            _accountService = new AccountService();
+            _customersService = new CustomersService();
         }
         [Fact]
         async void Delete_Operation_In_Database()
@@ -36,5 +41,17 @@ namespace BankGPT.Tests
         {
             var result = await _operationService.GetAllOperationsForCustomerAsync(1);
         }
+
+        [Fact]
+        public async void Create_New_Operation()
+        {
+            CustomersModel sends = await _customersService.GetSingleCustomerAsync(20);
+            List<AccountModel> sendsAccounts = await _accountService.GetAllAccountsOfCustomerAsync(20);
+
+            //TODO...CONTINUE HERE
+
+            //var result = await _operationService.CreateOperationAsync();
+        }
+
     }
 }

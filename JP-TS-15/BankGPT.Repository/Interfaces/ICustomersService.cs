@@ -8,6 +8,6 @@ namespace BankGPT.Repository.Interfaces
         Task CreateCustomerAsync(CustomersModel customersModel);
         Task UpdateCustomerAsync(CustomersModel customersModel);
         Task DeleteCustomerAsync(int id);
-        Task<CustomersModel> GetSingleCustomerAsync(int id);
+        Task<CustomersModel> GetSingleCustomerAsync(int customerId);
     }
 }

@@ -113,3 +113,28 @@ ORDER BY FirstName ASC
 SELECT
 	Title + '(' + CAST(YEAR(ReleaseDate) AS NVARCHAR) + ')' AS TitleAndReleaseDate
 FROM Film
+
+
+CREATE PROCEDURE AllAccountsForCustomer
+@customerId INT
+AS
+BEGIN
+	SELECT [Id]
+      ,[Iban]
+      ,[Currency]
+      ,[Balance]
+      ,[CustomerId]
+      ,[Name]
+ FROM [BankGPT].[dbo].[Accounts]
+ WHERE CustomerId = @customerId
+END
+
+
+CREATE PROCEDURE SingleCustomer
+@customerId INT
+AS
+BEGIN
+	SELECT*
+	FROM Customers
+	WHERE Id = @customerId
+END
