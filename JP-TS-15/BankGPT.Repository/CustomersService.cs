@@ -89,11 +89,11 @@ namespace BankGPT.Repository
                             result.Add(new CustomersModel
                             {
                                 Id = reader.GetInt32(0),
-                                FullName = reader.GetString(1),
-                                IdentityNumber = reader.GetString(2),
-                                PhoneNumber = reader.GetString(3),
-                                Email = reader.GetString(4),
-                                Type = reader.GetString(5),
+                                FullName = reader.GetString(1).Trim(),
+                                IdentityNumber = reader.GetString(2).Trim(),
+                                PhoneNumber = reader.GetString(3).Trim(),
+                                Email = reader.GetString(4).Trim(),
+                                Type = reader.GetString(5).Trim()
                             });
                         }
                     }
@@ -135,11 +135,11 @@ namespace BankGPT.Repository
                         while (await reader.ReadAsync())
                         {
                             result.Id = reader.GetInt32(0);
-                            result.FullName = reader.GetString(1);
-                            result.IdentityNumber = reader.GetString(2);
-                            result.PhoneNumber = reader.GetString(3);
-                            result.Email = reader.GetString(4);
-                            result.Type = reader.GetString(5);
+                            result.FullName = reader.GetString(1).Trim();
+                            result.IdentityNumber = reader.GetString(2).Trim();
+                            result.PhoneNumber = reader.GetString(3).Trim();
+                            result.Email = reader.GetString(4).Trim();
+                            result.Type = reader.GetString(5).Trim();
                         }
                     }
                 }

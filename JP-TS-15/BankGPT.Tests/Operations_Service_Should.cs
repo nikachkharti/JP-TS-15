@@ -1,6 +1,7 @@
 ﻿using BankGPT.Library;
 using BankGPT.Repository;
 using BankGPT.Repository.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
@@ -45,12 +46,42 @@ namespace BankGPT.Tests
         [Fact]
         public async void Create_New_Operation()
         {
+            const double transactionAmount = 100;
+
             CustomersModel sends = await _customersService.GetSingleCustomerAsync(20);
             List<AccountModel> sendsAccounts = await _accountService.GetAllAccountsOfCustomerAsync(20);
 
-            //TODO...CONTINUE HERE
+            CustomersModel recives = await _customersService.GetSingleCustomerAsync(17);
+            List<AccountModel> recivesAccount = await _accountService.GetAllAccountsOfCustomerAsync(17);
 
-            //var result = await _operationService.CreateOperationAsync();
+            OperationModel sendsOperation = new()
+            {
+                AccountId = sendsAccounts[0].Id,
+                Amount = transactionAmount,
+                Currency = "USD",
+                CustomerId = sends.Id,
+                HappendAt = DateTime.Now,
+                Type = "Personal transaction"
+            };
+
+            OperationModel recivesOperation = new()
+            {
+                AccountId = recivesAccount[0].Id,
+                Amount = transactionAmount,
+                Currency = "USD",
+                CustomerId = recives.Id,
+                HappendAt = DateTime.Now,
+                Type = "Personal transaction"
+            };
+
+            sendsAccounts[0].Balance -= transactionAmount;
+            recivesAccount[0].Balance += transactionAmount;
+
+            await _accountService.UpdateAccountAsync(sendsAccounts[0]);
+            await _accountService.UpdateAccountAsync(recivesAccount[0]);
+
+            await _operationService.CreateOperationAsync(sendsOperation);
+            await _operationService.CreateOperationAsync(recivesOperation);
         }
 
     }

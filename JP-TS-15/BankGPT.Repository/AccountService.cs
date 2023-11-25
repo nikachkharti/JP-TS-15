@@ -114,7 +114,7 @@ namespace BankGPT.Repository
 
         public async Task<List<AccountModel>> GetAllAccountsOfCustomerAsync(int customerId)
         {
-            const string sqlExpression = "AllAccountsForCustomer";
+            const string sqlExpression = "AllAccountsByCustomerId";
 
             List<AccountModel> result = new();
 
@@ -137,11 +137,11 @@ namespace BankGPT.Repository
                             result.Add(new AccountModel
                             {
                                 Id = reader.GetInt32(0),
-                                Iban = reader.GetString(1),
+                                Iban = reader.GetString(1).Trim(),
                                 Currency = reader.GetString(2),
                                 Balance = reader.GetDouble(3),
                                 CustomerId = reader.GetInt32(4),
-                                Name = reader.GetString(5),
+                                Name = reader.IsDBNull(5) ? string.Empty.Trim() : reader.GetString(5).Trim(),
                             });
                         }
                     }
@@ -182,11 +182,11 @@ namespace BankGPT.Repository
                         while (await reader.ReadAsync())
                         {
                             result.Id = reader.GetInt32(0);
-                            result.Iban = reader.GetString(1);
-                            result.Currency = reader.GetString(2);
+                            result.Iban = reader.GetString(1).Trim();
+                            result.Currency = reader.GetString(2).Trim();
                             result.Balance = reader.GetDouble(3);
                             result.CustomerId = reader.GetInt32(4);
-                            result.Name = reader.GetString(5);
+                            result.Name = reader.GetString(5).Trim();
                         }
                     }
                 }

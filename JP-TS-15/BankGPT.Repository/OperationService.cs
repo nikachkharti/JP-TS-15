@@ -91,8 +91,8 @@ namespace BankGPT.Repository
                             result.Add(new OperationModel
                             {
                                 Id = reader.GetInt32(0),
-                                Type = reader.GetString(1),
-                                Currency = reader.GetString(2),
+                                Type = reader.GetString(1).Trim(),
+                                Currency = reader.GetString(2).Trim(),
                                 Amount = reader.GetDouble(3),
                                 AccountId = reader.GetInt32(4),
                                 CustomerId = reader.GetInt32(5),
@@ -138,8 +138,8 @@ namespace BankGPT.Repository
                         while (await reader.ReadAsync())
                         {
                             result.Id = reader.GetInt32(0);
-                            result.Type = reader.GetString(1);
-                            result.Currency = reader.GetString(2);
+                            result.Type = reader.GetString(1).Trim();
+                            result.Currency = reader.GetString(2).Trim();
                             result.Amount = reader.GetDouble(3);
                             result.AccountId = reader.GetInt32(4);
                             result.CustomerId = reader.GetInt32(5);
@@ -184,8 +184,8 @@ namespace BankGPT.Repository
                         while (await reader.ReadAsync())
                         {
                             result.Id = reader.GetInt32(0);
-                            result.Type = reader.GetString(1);
-                            result.Currency = reader.GetString(2);
+                            result.Type = reader.GetString(1).Trim();
+                            result.Currency = reader.GetString(2).Trim();
                             result.Amount = reader.GetDouble(3);
                             result.AccountId = reader.GetInt32(4);
                             result.CustomerId = reader.GetInt32(5);

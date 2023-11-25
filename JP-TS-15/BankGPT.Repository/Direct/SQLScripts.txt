@@ -310,3 +310,18 @@ BEGIN
 	DELETE FROM Operations
 	WHERE Id = @operationId
 END
+
+
+CREATE PROCEDURE SingleCustomer
+@customerId INT
+AS
+BEGIN
+	SELECT [Id]
+		  ,[FullName]
+		  ,[IdentityNumber]
+		  ,[PhoneNumber]
+		  ,[Email]
+		  ,[Type]
+	FROM [BankGPT].[dbo].[Customers]
+	WHERE Id = @customerId
+END
