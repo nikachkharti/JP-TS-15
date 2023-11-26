@@ -10,14 +10,21 @@ namespace EmployeeManagement.API.Controllers
         [HttpGet]
         public List<Employee> GetEmployees()
         {
-            var allEmployees = EmployeeStore.GetAllEmployees();
-            return allEmployees;
+            var result = EmployeeStore.Employees;
+            return result;
         }
 
-        [HttpGet]
-        public Employee GetEmployee()
+        [HttpGet("{id:int}")]
+        public Employee GetEmployee(int id)
         {
-            throw new NotImplementedException();
+            var result = EmployeeStore.Employees.FirstOrDefault(x => x.Id == id);
+            return result;
+        }
+
+        [HttpPost]
+        public void AddNewEmployee(Employee model)
+        {
+            EmployeeStore.Employees.Add(model);
         }
     }
 }
