@@ -7,11 +7,17 @@ namespace EmployeeManagement.API.Controllers
     [Route("api/employees")]
     public class EmployeesController : ControllerBase
     {
+        private readonly ApplicationDbContext _context;
+        public EmployeesController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<List<Employee>> GetEmployees()
         {
-            var result = EmployeeStore.Employees;
+            var result = _context.Employees.ToList();
             return Ok(result);
         }
 
@@ -24,7 +30,7 @@ namespace EmployeeManagement.API.Controllers
             if (id <= 0)
                 return BadRequest();
 
-            var result = EmployeeStore.Employees.FirstOrDefault(x => x.Id == id);
+            var result = _context.Employees.FirstOrDefault(x => x.Id == id);
 
             if (result == null)
                 return NotFound();
@@ -40,10 +46,9 @@ namespace EmployeeManagement.API.Controllers
             if (model == null)
                 return BadRequest();
 
-            var newId = EmployeeStore.Employees.Max(x => x.Id) + 1;
-            model.Id = newId;
+            _context.Employees.Add(model);
+            _context.SaveChanges();
 
-            EmployeeStore.Employees.Add(model);
             return Created(string.Empty, model);
         }
 
@@ -51,22 +56,16 @@ namespace EmployeeManagement.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult UpdateEmployee(int id, Employee model)
+        public ActionResult UpdateEmployee(Employee model)
         {
-            if (id <= 0 || model.Id != id)
+            if (model.Id <= 0 || model == null)
                 return BadRequest();
 
-            var result = EmployeeStore.Employees.FirstOrDefault(x => x.Id == id);
-
-            if (result == null)
-                return NotFound();
-
-            result.FirstName = model.FirstName;
-            result.LastName = model.LastName;
+            _context.Employees.Update(model);
+            _context.SaveChanges();
 
             return Ok();
         }
-
 
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -77,12 +76,13 @@ namespace EmployeeManagement.API.Controllers
             if (id <= 0)
                 return BadRequest();
 
-            var result = EmployeeStore.Employees.FirstOrDefault(x => x.Id == id);
+            var result = _context.Employees.FirstOrDefault(x => x.Id == id);
 
             if (result == null)
                 return NotFound();
 
-            EmployeeStore.Employees.Remove(result);
+            _context.Employees.Remove(result);
+            _context.SaveChanges();
 
             return NoContent();
         }
