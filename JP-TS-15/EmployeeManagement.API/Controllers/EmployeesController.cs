@@ -1,4 +1,6 @@
 ﻿using EmployeeManagement.API.Data;
+using EmployeeManagement.API.Models;
+using EmployeeManagement.API.Models.DTOS;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManagement.API.Controllers
@@ -15,9 +17,21 @@ namespace EmployeeManagement.API.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<List<Employee>> GetEmployees()
+        public ActionResult<List<EmployeeDTO>> GetEmployees()
         {
-            var result = _context.Employees.ToList();
+
+            List<Employee> employees = _context.Employees.ToList();
+
+            List<EmployeeDTO> result = employees.Select(x => new EmployeeDTO
+            {
+                Id = x.Id,
+                FirstName = x.FirstName,
+                LastName = x.LastName
+            }).ToList();
+
+            if (result == null)
+                return NotFound();
+
             return Ok(result);
         }
 
@@ -25,12 +39,19 @@ namespace EmployeeManagement.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<Employee> GetEmployee([FromRoute] int id)
+        public ActionResult<EmployeeDTO> GetEmployee([FromRoute] int id)
         {
             if (id <= 0)
                 return BadRequest();
 
-            var result = _context.Employees.FirstOrDefault(x => x.Id == id);
+            Employee employee = _context.Employees.FirstOrDefault(x => x.Id == id);
+
+            EmployeeDTO result = new()
+            {
+                Id = employee.Id,
+                FirstName = employee.FirstName,
+                LastName = employee.LastName
+            };
 
             if (result == null)
                 return NotFound();
@@ -41,12 +62,18 @@ namespace EmployeeManagement.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public ActionResult AddNewEmployee([FromBody] Employee model)
+        public ActionResult AddNewEmployee([FromBody] AddEmployeeDTO model)
         {
             if (model == null)
                 return BadRequest();
 
-            _context.Employees.Add(model);
+            Employee newEmployee = new()
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName
+            };
+
+            _context.Employees.Add(newEmployee);
             _context.SaveChanges();
 
             return Created(string.Empty, model);
@@ -56,12 +83,20 @@ namespace EmployeeManagement.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult UpdateEmployee([FromBody] Employee model)
+        public ActionResult UpdateEmployee([FromBody] UpdateEmployeeDTO model)
         {
             if (model.Id <= 0 || model == null)
                 return BadRequest();
 
-            _context.Employees.Update(model);
+
+            Employee result = new()
+            {
+                Id = model.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName
+            };
+
+            _context.Employees.Update(result);
             _context.SaveChanges();
 
             return Ok();
