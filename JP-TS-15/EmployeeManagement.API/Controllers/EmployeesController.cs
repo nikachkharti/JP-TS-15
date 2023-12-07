@@ -1,5 +1,6 @@
 ﻿using EmployeeManagement.API.Data;
 using Microsoft.AspNetCore.Mvc;
+using EmployeeManagement.API.Models.DTOS;
 
 namespace EmployeeManagement.API.Controllers
 {
@@ -15,7 +16,7 @@ namespace EmployeeManagement.API.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<List<Employee>> GetEmployees()
+        public ActionResult<List<EmployeeDTO>> GetEmployees()
         {
             var result = _context.Employees.ToList();
             return Ok(result);
@@ -25,7 +26,7 @@ namespace EmployeeManagement.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<Employee> GetEmployee([FromRoute] int id)
+        public ActionResult<EmployeeDTO> GetEmployee([FromRoute] int id)
         {
             if (id <= 0)
                 return BadRequest();
@@ -41,12 +42,17 @@ namespace EmployeeManagement.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public ActionResult AddNewEmployee([FromBody] Employee model)
+        public ActionResult AddNewEmployee([FromBody] EmployeeDTO model)
         {
             if (model == null)
                 return BadRequest();
+            Employee newEmployee = new() { 
+                Id = model.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+            };
 
-            _context.Employees.Add(model);
+            _context.Employees.Add(newEmployee);
             _context.SaveChanges();
 
             return Created(string.Empty, model);
@@ -56,12 +62,18 @@ namespace EmployeeManagement.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult UpdateEmployee([FromBody] Employee model)
+        public ActionResult UpdateEmployee([FromBody] EmployeeDTO model)
         {
+            Employee updatedEmployee = new()
+            {
+                Id = model.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+            };
             if (model.Id <= 0 || model == null)
                 return BadRequest();
 
-            _context.Employees.Update(model);
+            _context.Employees.Update(updatedEmployee);
             _context.SaveChanges();
 
             return Ok();
