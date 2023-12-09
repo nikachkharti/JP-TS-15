@@ -1,7 +1,9 @@
-﻿using EmployeeManagement.API.Data;
+﻿using AutoMapper;
+using EmployeeManagement.API.Data;
 using EmployeeManagement.API.Models;
 using EmployeeManagement.API.Models.DTOS;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeManagement.API.Controllers
 {
@@ -10,25 +12,21 @@ namespace EmployeeManagement.API.Controllers
     public class CompaniesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        public CompaniesController(ApplicationDbContext context)
+        private readonly IMapper _mapper;
+
+        public CompaniesController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<List<CompanyDTO>> GetCompanies()
+        public async Task<ActionResult<List<CompanyDTO>>> GetCompanies()
         {
-            List<Company> companies = _context.Companies.ToList();
-
-            //TODO Implement automapper logic here...
-            List<CompanyDTO> result = companies.Select(x => new CompanyDTO
-            {
-                Id = x.Id,
-                Title = x.Title,
-                CreateDate = x.CreateDate
-            }).ToList();
+            List<Company> companies = await _context.Companies.ToListAsync();
+            List<CompanyDTO> result = _mapper.Map<List<CompanyDTO>>(companies);
 
             if (result == null)
                 return NotFound();
@@ -40,20 +38,13 @@ namespace EmployeeManagement.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<CompanyDTO> GetCompany([FromRoute] int id)
+        public async Task<ActionResult<CompanyDTO>> GetCompany([FromRoute] int id)
         {
             if (id <= 0)
                 return BadRequest();
 
-            Company company = _context.Companies.FirstOrDefault(x => x.Id == id);
-
-            //TODO Implement automapper logic here...
-            CompanyDTO result = new()
-            {
-                Id = company.Id,
-                Title = company.Title,
-                CreateDate = company.CreateDate
-            };
+            Company company = await _context.Companies.FirstOrDefaultAsync(x => x.Id == id);
+            CompanyDTO result = _mapper.Map<CompanyDTO>(company);
 
             if (result == null)
                 return NotFound();
@@ -65,20 +56,14 @@ namespace EmployeeManagement.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public ActionResult AddNewCompany([FromBody] CreateCompanyDTO model)
+        public async Task<ActionResult> AddNewCompany([FromBody] CreateCompanyDTO model)
         {
             if (model == null)
                 return BadRequest();
 
-            //TODO Implement automapper logic here...
-            Company newCompany = new()
-            {
-                Title = model.Title,
-                CreateDate = model.CreateDate
-            };
-
-            _context.Companies.Add(newCompany);
-            _context.SaveChanges();
+            Company newCompany = _mapper.Map<Company>(model);
+            await _context.Companies.AddAsync(newCompany);
+            await _context.SaveChangesAsync();
 
             return Created(string.Empty, model);
         }
@@ -87,18 +72,18 @@ namespace EmployeeManagement.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public ActionResult DeleteCompany([FromRoute] int id)
+        public async Task<ActionResult> DeleteCompany([FromRoute] int id)
         {
             if (id <= 0)
                 return BadRequest();
 
-            var result = _context.Companies.FirstOrDefault(x => x.Id == id);
+            var result = await _context.Companies.FirstOrDefaultAsync(x => x.Id == id);
 
             if (result == null)
                 return NotFound();
 
             _context.Companies.Remove(result);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
@@ -108,22 +93,15 @@ namespace EmployeeManagement.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult UpdateCompany([FromBody] UpdateCompanyDTO model)
+        public async Task<ActionResult> UpdateCompany([FromBody] UpdateCompanyDTO model)
         {
             if (model.Id <= 0 || model == null)
                 return BadRequest();
 
-
-            //TODO Implement automapper logic here...
-            Company result = new()
-            {
-                Id = model.Id,
-                Title = model.Title,
-                CreateDate = model.CreateDate
-            };
+            Company result = _mapper.Map<Company>(model);
 
             _context.Companies.Update(result);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return Ok();
         }

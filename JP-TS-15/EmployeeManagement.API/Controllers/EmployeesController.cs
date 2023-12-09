@@ -1,6 +1,8 @@
-﻿using EmployeeManagement.API.Data;
+﻿using AutoMapper;
+using EmployeeManagement.API.Data;
 using EmployeeManagement.API.Models.DTOS;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace EmployeeManagement.API.Controllers
 {
@@ -9,23 +11,20 @@ namespace EmployeeManagement.API.Controllers
     public class EmployeesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
-        public EmployeesController(ApplicationDbContext context)
+        private readonly IMapper _mapper;
+
+        public EmployeesController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<List<EmployeeDTO>> GetEmployees()
+        public async Task<ActionResult<List<EmployeeDTO>>> GetEmployees()
         {
-            List<Employee> employees = _context.Employees.ToList();
-
-            List<EmployeeDTO> result = employees.Select(x => new EmployeeDTO
-            {
-                Id = x.Id,
-                FirstName = x.FirstName,
-                LastName = x.LastName
-            }).ToList();
+            List<Employee> employees = await _context.Employees.ToListAsync();
+            List<EmployeeDTO> result = _mapper.Map<List<EmployeeDTO>>(employees);
 
             return Ok(result);
         }
@@ -34,18 +33,13 @@ namespace EmployeeManagement.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<Employee> GetEmployee([FromRoute] int id)
+        public async Task<ActionResult<Employee>> GetEmployee([FromRoute] int id)
         {
             if (id <= 0)
                 return BadRequest();
 
-            Employee employee = _context.Employees.FirstOrDefault(x => x.Id == id);
-            EmployeeDTO result = new()
-            {
-                Id = employee.Id,
-                FirstName = employee.FirstName,
-                LastName = employee.LastName
-            };
+            Employee employee = await _context.Employees.FirstOrDefaultAsync(x => x.Id == id);
+            EmployeeDTO result = _mapper.Map<EmployeeDTO>(employee);
 
             if (result == null)
                 return NotFound();
@@ -56,19 +50,15 @@ namespace EmployeeManagement.API.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public ActionResult AddNewEmployee([FromBody] CreateEmployeeDTO model)
+        public async Task<ActionResult> AddNewEmployee([FromBody] CreateEmployeeDTO model)
         {
             if (model == null)
                 return BadRequest();
 
-            Employee newEmployee = new()
-            {
-                FirstName = model.FirstName,
-                LastName = model.LastName
-            };
+            Employee newEmployee = _mapper.Map<Employee>(model);
 
-            _context.Employees.Add(newEmployee);
-            _context.SaveChanges();
+            await _context.Employees.AddAsync(newEmployee);
+            await _context.SaveChangesAsync();
 
             return Created(string.Empty, model);
         }
@@ -77,20 +67,15 @@ namespace EmployeeManagement.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult UpdateEmployee([FromBody] UpdateEmployeeDTO model)
+        public async Task<ActionResult> UpdateEmployee([FromBody] UpdateEmployeeDTO model)
         {
             if (model.Id <= 0 || model == null)
                 return BadRequest();
 
-            Employee result = new()
-            {
-                Id = model.Id,
-                FirstName = model.FirstName,
-                LastName = model.LastName
-            };
+            Employee result = _mapper.Map<Employee>(model);
 
             _context.Employees.Update(result);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return Ok();
         }
@@ -99,7 +84,7 @@ namespace EmployeeManagement.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public ActionResult<Employee> DeleteEmployee([FromRoute] int id)
+        public async Task<ActionResult<Employee>> DeleteEmployee([FromRoute] int id)
         {
             if (id <= 0)
                 return BadRequest();
@@ -110,7 +95,7 @@ namespace EmployeeManagement.API.Controllers
                 return NotFound();
 
             _context.Employees.Remove(result);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
