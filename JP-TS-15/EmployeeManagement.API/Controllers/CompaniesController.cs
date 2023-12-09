@@ -13,79 +13,202 @@ namespace EmployeeManagement.API.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
+        private APIResponse _response;
 
         public CompaniesController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
+            _response = new();
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<List<CompanyDTO>>> GetCompanies()
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<APIResponse>> GetCompanies()
         {
-            List<Company> companies = await _context.Companies.ToListAsync();
-            List<CompanyDTO> result = _mapper.Map<List<CompanyDTO>>(companies);
+            try
+            {
+                List<Company> companies = await _context.Companies.ToListAsync();
+                List<CompanyDTO> result = _mapper.Map<List<CompanyDTO>>(companies);
 
-            if (result == null)
-                return NotFound();
+                if (result == null)
+                {
+                    _response.StatusCode = StatusCodes.Status404NotFound;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessage = new List<string>() { "Content not found." };
+                    _response.Result = null;
 
-            return Ok(result);
+                    return _response;
+                }
+
+                _response.StatusCode = StatusCodes.Status200OK;
+                _response.IsSuccess = true;
+                _response.ErrorMessage = null;
+                _response.Result = result;
+            }
+            catch (Exception ex)
+            {
+                _response.StatusCode = StatusCodes.Status500InternalServerError;
+                _response.IsSuccess = false;
+                _response.ErrorMessage = new List<string>() { ex.Message };
+                _response.Result = null;
+            }
+
+            return _response;
         }
 
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<CompanyDTO>> GetCompany([FromRoute] int id)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<APIResponse>> GetCompany([FromRoute] int id)
         {
-            if (id <= 0)
-                return BadRequest();
+            try
+            {
+                if (id <= 0)
+                {
+                    _response.StatusCode = StatusCodes.Status400BadRequest;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessage = new List<string>() { "Bad request." };
+                    _response.Result = null;
 
-            Company company = await _context.Companies.FirstOrDefaultAsync(x => x.Id == id);
-            CompanyDTO result = _mapper.Map<CompanyDTO>(company);
+                    return _response;
+                }
 
-            if (result == null)
-                return NotFound();
+                Company company = await _context.Companies.FirstOrDefaultAsync(x => x.Id == id);
+                CompanyDTO result = _mapper.Map<CompanyDTO>(company);
 
-            return Ok(result);
+                if (result == null)
+                {
+                    _response.StatusCode = StatusCodes.Status404NotFound;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessage = new List<string>() { "Content not found." };
+                    _response.Result = null;
+
+                    return _response;
+                }
+
+                _response.StatusCode = StatusCodes.Status200OK;
+                _response.IsSuccess = true;
+                _response.ErrorMessage = null;
+                _response.Result = result;
+
+            }
+            catch (Exception ex)
+            {
+                _response.StatusCode = StatusCodes.Status500InternalServerError;
+                _response.IsSuccess = false;
+                _response.ErrorMessage = new List<string>() { ex.Message };
+                _response.Result = null;
+            }
+
+            return _response;
         }
 
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<ActionResult> AddNewCompany([FromBody] CreateCompanyDTO model)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<APIResponse>> AddNewCompany([FromBody] CreateCompanyDTO model)
         {
-            if (model == null)
-                return BadRequest();
+            try
+            {
+                if (model == null)
+                {
+                    _response.StatusCode = StatusCodes.Status400BadRequest;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessage = new List<string>() { "Bad request." };
+                    _response.Result = null;
 
-            Company newCompany = _mapper.Map<Company>(model);
-            await _context.Companies.AddAsync(newCompany);
-            await _context.SaveChangesAsync();
+                    return _response;
+                }
 
-            return Created(string.Empty, model);
+                Company newCompany = _mapper.Map<Company>(model);
+
+                if (newCompany == null)
+                {
+                    _response.StatusCode = StatusCodes.Status404NotFound;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessage = new List<string>() { "Content not found." };
+                    _response.Result = null;
+
+                    return _response;
+                }
+
+                await _context.Companies.AddAsync(newCompany);
+                await _context.SaveChangesAsync();
+
+                _response.StatusCode = StatusCodes.Status201Created;
+                _response.IsSuccess = true;
+                _response.ErrorMessage = null;
+                _response.Result = newCompany;
+            }
+            catch (Exception ex)
+            {
+                _response.StatusCode = StatusCodes.Status500InternalServerError;
+                _response.IsSuccess = false;
+                _response.ErrorMessage = new List<string>() { ex.Message };
+                _response.Result = null;
+            }
+
+            return _response;
         }
+
+
 
         [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<ActionResult> DeleteCompany([FromRoute] int id)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<APIResponse>> DeleteCompany([FromRoute] int id)
         {
-            if (id <= 0)
-                return BadRequest();
+            try
+            {
+                if (id <= 0)
+                {
+                    _response.StatusCode = StatusCodes.Status400BadRequest;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessage = new List<string>() { "Bad request." };
+                    _response.Result = null;
 
-            var result = await _context.Companies.FirstOrDefaultAsync(x => x.Id == id);
+                    return _response;
+                }
 
-            if (result == null)
-                return NotFound();
+                var result = await _context.Companies.FirstOrDefaultAsync(x => x.Id == id);
 
-            _context.Companies.Remove(result);
-            await _context.SaveChangesAsync();
+                if (result == null)
+                {
+                    _response.StatusCode = StatusCodes.Status404NotFound;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessage = new List<string>() { "Content not found." };
+                    _response.Result = null;
 
-            return NoContent();
+                    return _response;
+                }
+
+                _context.Companies.Remove(result);
+                await _context.SaveChangesAsync();
+
+                _response.StatusCode = StatusCodes.Status201Created;
+                _response.IsSuccess = true;
+                _response.ErrorMessage = null;
+                _response.Result = result;
+
+            }
+            catch (Exception ex)
+            {
+                _response.StatusCode = StatusCodes.Status500InternalServerError;
+                _response.IsSuccess = false;
+                _response.ErrorMessage = new List<string>() { ex.Message };
+                _response.Result = null;
+            }
+
+            return _response;
         }
 
 
@@ -93,17 +216,51 @@ namespace EmployeeManagement.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult> UpdateCompany([FromBody] UpdateCompanyDTO model)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<APIResponse>> UpdateCompany([FromBody] UpdateCompanyDTO model)
         {
-            if (model.Id <= 0 || model == null)
-                return BadRequest();
+            try
+            {
+                if (model.Id <= 0 || model == null)
+                {
+                    _response.StatusCode = StatusCodes.Status400BadRequest;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessage = new List<string>() { "Bad request." };
+                    _response.Result = null;
 
-            Company result = _mapper.Map<Company>(model);
+                    return _response;
+                }
 
-            _context.Companies.Update(result);
-            await _context.SaveChangesAsync();
+                Company result = _mapper.Map<Company>(model);
 
-            return Ok();
+                if (result == null)
+                {
+                    _response.StatusCode = StatusCodes.Status404NotFound;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessage = new List<string>() { "Content not found." };
+                    _response.Result = null;
+
+                    return _response;
+                }
+
+                _context.Companies.Update(result);
+                await _context.SaveChangesAsync();
+
+                _response.StatusCode = StatusCodes.Status200OK;
+                _response.IsSuccess = true;
+                _response.ErrorMessage = null;
+                _response.Result = result;
+
+            }
+            catch (Exception ex)
+            {
+                _response.StatusCode = StatusCodes.Status500InternalServerError;
+                _response.IsSuccess = false;
+                _response.ErrorMessage = new List<string>() { ex.Message };
+                _response.Result = null;
+            }
+
+            return _response;
         }
     }
 }
