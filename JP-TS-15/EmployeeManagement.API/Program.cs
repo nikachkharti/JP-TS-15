@@ -2,16 +2,31 @@ using EmployeeManagement.API;
 using EmployeeManagement.API.Data;
 using Microsoft.EntityFrameworkCore;
 
+
 var builder = WebApplication.CreateBuilder(args);
+
+//ENABLE CORS POLICY
+string myAllowSpecificOrigin = builder.Configuration.GetValue<string>("CORSPolicy:OriginName");
 
 // Add services to the container.
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("SQLServerConnection")));
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//ENABLE CORS POLICY
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: myAllowSpecificOrigin, policy =>
+    {
+        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+    });
+});
+
+
 
 var app = builder.Build();
 
@@ -23,6 +38,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+//ENABLE CORS POLICY
+app.UseCors(myAllowSpecificOrigin);
 
 app.UseAuthorization();
 

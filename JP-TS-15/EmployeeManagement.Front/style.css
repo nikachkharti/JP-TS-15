@@ -1,0 +1,9 @@
+.main-card{
+    cursor: pointer;
+    transition: .2s;
+}
+
+.main-card:hover{
+    box-shadow: 3px 3px 13px rgb(198, 198, 198);
+    transition: .2s;
+}
