@@ -7,6 +7,8 @@ let companyCreateDate = document.querySelector('#companyCreateDate');
 
 let clearFormBtn = document.querySelector('#clearFormBtn');
 let createCompanyBtn = document.querySelector('#createCompanyBtn');
+let deleteBtn = document.querySelector('#deleteCompanyBtn');
+let updateBtn = document.querySelector('#updateCompanyBtn');
 
 function getAllCompanies() {
     fetch('https://localhost:7069/api/companies')
@@ -19,7 +21,27 @@ getAllCompanies();
 function getCompanyById(id) {
     fetch(`https://localhost:7069/api/companies/${id}`)
         .then(response => response.json())
-        .then(data => displayCompanyInForm(data.result))
+        .then(data => {
+            displayCompanyInForm(data.result)
+
+            //ვშლით კომპანიას ფორმის შევსების შემდეგ
+            deleteBtn.addEventListener('click', function () {
+                fetch(`https://localhost:7069/api/companies/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'content-type': 'application/json'
+                    }
+                })
+                    .then(response => response.json()) // Need to invoke json() to parse the response
+                    .then(data => {
+                        clearForm();
+                        alert('Company deleted successfully');
+                        getAllCompanies();
+                    }) // Log the parsed JSON data
+                    .catch(error => console.error('Error:', error)); // Catch any errors
+            });
+        }
+        )
 }
 
 
@@ -28,11 +50,10 @@ function displayCompanyInForm(company) {
     companyTitle.value = company.title;
     companyCreateDate.value = company.createDate;
 
-    //CONTINUE HERE....
     const dateobject = new Date(company.createDate);
     const dateResult = dateobject.toISOString().split('T')[0];
 
-    comapnyCreateDate.value = dateResult;
+    companyCreateDate.value = dateResult;
 }
 
 
@@ -110,3 +131,35 @@ function clearForm() {
     companyTitle.value = '';
     companyCreateDate.value = '';
 }
+
+
+
+function updateCompany(id, title, createDate) {
+    const body = {
+        "id": id,
+        "title": title,
+        "createDate": createDate
+    }
+
+    fetch('https://localhost:7069/api/companies', {
+        method: 'PUT',
+        body: JSON.stringify(body),
+        headers: {
+            'content-type': 'application/json'
+        }
+    })
+        .then(response => response.json()) // Need to invoke json() to parse the response
+        .then(data => {
+            clearForm();
+            //TODO Check status before alert...
+            alert('Company updated successfully');
+            getAllCompanies();
+        }) // Log the parsed JSON data
+        .catch(error => console.error('Error:', error)); // Catch any errors
+}
+
+
+updateBtn.addEventListener('click', function (e) {
+    console.log(e);
+    updateCompany(companyId, companyTitle.value, companyCreateDate.value);
+})
