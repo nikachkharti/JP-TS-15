@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmployeeManagement.API.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231202153559_Initial")]
+    [Migration("20231216141410_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -116,7 +116,7 @@ namespace EmployeeManagement.API.Data.Migrations
                         {
                             Id = 3,
                             CreateDate = new DateTime(1946, 5, 7, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "Apple"
+                            Title = "Sony"
                         });
                 });
 #pragma warning restore 612, 618

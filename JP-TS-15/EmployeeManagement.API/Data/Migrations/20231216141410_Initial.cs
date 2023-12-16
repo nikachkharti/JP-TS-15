@@ -44,7 +44,7 @@ namespace EmployeeManagement.API.Data.Migrations
                 {
                     { 1, new DateTime(1974, 4, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), "Microsoft" },
                     { 2, new DateTime(1976, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Apple" },
-                    { 3, new DateTime(1946, 5, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), "Apple" }
+                    { 3, new DateTime(1946, 5, 7, 0, 0, 0, 0, DateTimeKind.Unspecified), "Sony" }
                 });
 
             migrationBuilder.InsertData(
