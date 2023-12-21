@@ -23,7 +23,7 @@ namespace EmployeeManagement.API.Controllers
             _response = new();
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -83,6 +83,13 @@ namespace EmployeeManagement.API.Controllers
             }
 
             return _response;
+        }
+
+
+        [HttpPost("login")]
+        public async Task<ActionResult<APIResponse>> Login([FromBody] UserRegistrationDTO model)
+        {
+            throw new NotImplementedException();
         }
 
         private async Task<bool> UserAlreadyExists(string email) => await _context.Users.AnyAsync(x => x.Email.ToLower() == email.ToLower());
