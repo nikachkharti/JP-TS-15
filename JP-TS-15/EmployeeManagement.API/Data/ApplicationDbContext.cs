@@ -11,6 +11,7 @@ namespace EmployeeManagement.API.Data
 
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Company> Companies { get; set; }
+        public DbSet<User> Users { get; set; }
 
 
         //Data seed...
@@ -28,6 +29,10 @@ namespace EmployeeManagement.API.Data
                     new Company() { Id = 1, Title = "Microsoft", CreateDate = new DateTime(year: 1974, month: 4, day: 4) },
                     new Company() { Id = 2, Title = "Apple", CreateDate = new DateTime(year: 1976, month: 4, day: 1) },
                     new Company() { Id = 3, Title = "Sony", CreateDate = new DateTime(year: 1946, month: 5, day: 7) }
+                );
+
+            modelBuilder.Entity<User>().HasData(
+                    new User() { Id = 1, Email = "admin@gmail.com", Password = "admin", Role = "admin" }
                 );
         }
 
